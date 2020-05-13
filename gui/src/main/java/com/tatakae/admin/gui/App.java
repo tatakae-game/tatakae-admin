@@ -25,11 +25,7 @@ public class App extends Application {
     public static void main(String[] args) {
         try {
             final var manager = new PluginManager();
-
-            final var plugin = manager.load(
-                    "/Users/qtmsheep/Development/tatakae/tatakae-admin/plugins/bootstrap/target/plugins.boostrap-1.0-SNAPSHOT.jar");
-
-            plugin.start();
+            manager.startPlugins();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
