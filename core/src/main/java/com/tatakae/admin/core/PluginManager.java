@@ -17,14 +17,14 @@ import com.tatakae.admin.core.Exceptions.FailedLoadingPluginException;
 import net.harawata.appdirs.AppDirsFactory;
 
 public class PluginManager {
-    public List<Plugin> plugins = new ArrayList<>();
+    public List<PluginEnvironment> environments = new ArrayList<>();
 
     public PluginManager() {
         this.loadPlugins();
     }
 
     public void startPlugins() {
-        this.plugins.forEach(plugin -> plugin.start());
+        this.environments.forEach(env -> env.getPlugin().start());
     }
 
     private void loadPlugins() {
@@ -33,7 +33,7 @@ public class PluginManager {
 
             Stream<Path> paths = Files.walk(pluginsDirectory);
 
-            final var plugins = paths.filter(Files::isRegularFile).map((path) -> {
+            final var environments = paths.filter(Files::isRegularFile).map((path) -> {
                 try {
                     return this.loadPlugin(path);
                 } catch (Exception e) {
@@ -44,7 +44,7 @@ public class PluginManager {
                 }
             });
 
-            this.plugins = plugins.filter(Objects::nonNull).collect(Collectors.toList());
+            this.environments = environments.filter(plugin -> Objects.nonNull(plugin)).collect(Collectors.toList());
             paths.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,17 +71,19 @@ public class PluginManager {
         return Paths.get(dataDirectory);
     }
 
-    private Plugin loadPlugin(final Path path) throws FailedLoadingPluginException {
+    private PluginEnvironment loadPlugin(final Path path) throws FailedLoadingPluginException {
         try {
             final var url = new URL[] { new URL("file:///" + path) };
-            final var child = new URLClassLoader(url, PluginManager.class.getClassLoader());
+            final var loader = new URLClassLoader(url, PluginManager.class.getClassLoader());
 
-            final var plugin = Class.forName("Extension", true, child);
-            final var extension = (Plugin) plugin.getDeclaredConstructor().newInstance();
+            final var pluginClass = Class.forName("Extension", true, loader);
+            final var plugin = (Plugin) pluginClass.getDeclaredConstructor().newInstance();
 
-            plugins.add(extension);
+            final var environment = new PluginEnvironment(loader, plugin);
 
-            return extension;
+            this.environments.add(environment);
+
+            return environment;
         } catch (Exception e) {
             throw new FailedLoadingPluginException(
                     "Failed to load the plugin at path '" + path + "': " + e.getMessage());
