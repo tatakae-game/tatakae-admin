@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="770.0" style="-fx-background-color: #0d0628;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tatakae.admin.gui.controllers.LoggerController">
+   <children>
+      <AnchorPane layoutX="414.0" layoutY="86.0" prefHeight="317.0" prefWidth="334.0">
+         <children>
+            <JFXTextField focusColor="#96180b" layoutX="60.0" layoutY="78.0" prefHeight="26.0" prefWidth="204.0" promptText="username" />
+            <JFXPasswordField focusColor="#96180b" layoutX="60.0" layoutY="168.0" prefHeight="26.0" prefWidth="204.0" promptText="password" />
+            <JFXButton layoutX="114.0" layoutY="232.0" prefHeight="32.0" prefWidth="97.0" ripplerFill="#0c0626" style="-fx-background-color: #96180b;" text="Connect" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
