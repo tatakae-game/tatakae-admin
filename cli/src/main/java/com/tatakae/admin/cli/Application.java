@@ -8,36 +8,36 @@ import java.util.Scanner;
 class Application {
 
     public static void main(final String[] args) {
-        try {
-            int counter = 5;
-            do {
-                System.out.println("Enter your credentials:\n");
-                var credentials = enterCredentials();
+        for (int i = 5; i >= 0; --i) {
+            var credentials = enterCredentials();
 
-                var user = AuthService.authenticate(credentials.getUsername(), credentials.getPassword());
+            try {
+                AuthService.authenticate(credentials.getUsername(), credentials.getPassword());
 
                 if (AuthService.isAuthed()) {
                     System.out.println("\nConnection successful.\n");
+                    break;
                 } else {
-                    counter--;
-                    System.out.println("\nConnection failed. " + counter + " attempts remaining.\n");
+                    System.out.println("\nConnection failed. " + i + " attempts remaining.\n");
                 }
-            } while (!AuthService.isAuthed() && counter > 0 );
-
-            System.exit(0);
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private static Credentials enterCredentials() {
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("Enter your credentials:\n");
+
         System.out.print("\tUsername: ");
         var username = scanner.next();
+
         System.out.print("\tPassword: ");
         var password = scanner.next();
+
+        scanner.close();
 
         return new Credentials(username, password);
     }
