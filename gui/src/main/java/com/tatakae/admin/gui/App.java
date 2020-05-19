@@ -14,8 +14,8 @@ public class App extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Logger.fxml"));
             Parent root = loader.load();
-
             stage.setScene(new Scene(root));
+            stage.setMaximized(true);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

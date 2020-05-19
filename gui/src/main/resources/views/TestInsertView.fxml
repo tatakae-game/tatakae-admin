@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minWidth="-Infinity" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tatakae.admin.gui.controllers.TestInsertViewController">
+   <children>
+      <Button layoutX="146.0" layoutY="65.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="227.0" layoutY="130.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="94.0" layoutY="188.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="208.0" layoutY="65.0" mnemonicParsing="false" text="Button" />
+   </children>
+</AnchorPane>
