@@ -12,7 +12,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Logger.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/PluginView.fxml"));
             Parent root = loader.load();
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
