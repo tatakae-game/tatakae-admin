@@ -4,17 +4,12 @@ import com.tatakae.admin.core.Config;
 import com.tatakae.admin.core.Exceptions.FailedParsingJsonException;
 import com.tatakae.admin.core.Message;
 import com.tatakae.admin.core.Room;
-import com.tatakae.admin.core.User;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class RoomService {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
@@ -22,7 +17,7 @@ public class RoomService {
     public static ArrayList<Room> getAllTickets(final String token)
             throws FailedParsingJsonException {
         try {
-            var res = Unirest.get(Config.url + "/support/admin/tickets/opened")
+            var res = Unirest.get(Config.url + "/support/tickets")
                     .header("accept", "application/json")
                     .header("Authorization", token)
                     .asJsonAsync().get().getBody().getObject();
