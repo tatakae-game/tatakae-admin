@@ -22,7 +22,7 @@ public class RoomService {
                     .header("Authorization", token)
                     .asJsonAsync().get().getBody().getObject();
 
-            return serialize(res.getJSONArray("tickets"));
+            return serialize(res.getJSONArray("rooms"));
 
 
         } catch (Exception e) {
