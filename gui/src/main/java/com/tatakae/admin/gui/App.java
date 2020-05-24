@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -14,8 +15,11 @@ public class App extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/HomeView.fxml"));
             Parent root = loader.load();
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styles/tickets.css").toExternalForm());
+            stage.setScene(scene);
             stage.setMaximized(true);
+            stage.getIcons().add(new Image(getClass().getResource("/images/favicon.png").toString()));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
