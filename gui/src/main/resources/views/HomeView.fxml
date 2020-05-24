@@ -8,7 +8,11 @@
 
 <AnchorPane fx:id="homeAnchorPane" prefHeight="479.0" prefWidth="770.0" style="-fx-background-color: #14093b;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tatakae.admin.gui.controllers.HomeController">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="479.0" prefWidth="269.0" style="-fx-background-color: #0a041c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="268.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="268.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane fx:id="viewsContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+         </children></VBox>
+      <VBox fx:id="vBoxMenuContainer" alignment="TOP_CENTER" prefHeight="479.0" prefWidth="269.0" style="-fx-background-color: #0a041c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="57.0" fitWidth="199.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -52,6 +56,5 @@
             </Button>
          </children>
       </VBox>
-      <AnchorPane fx:id="viewsContainer" layoutX="268.0" prefHeight="479.0" prefWidth="502.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="268.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>

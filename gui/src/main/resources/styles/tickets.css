@@ -1,0 +1,21 @@
+.tab-pane *.tab-header-background {
+    -fx-background-color: #0a041c;
+    -fx-effect: innershadow(two-pass-box , transparent , 0, 0.0 , 0 , 0);
+}
+
+.openTicketsTab {
+    -fx-background-color: #14093b;
+    -fx-text-fill: #ffffff;
+}
+
+.openTicketsTab:hover{
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-cursor: hand;
+}
+
+.tab-label {
+    -fx-text-fill: white;
+}
