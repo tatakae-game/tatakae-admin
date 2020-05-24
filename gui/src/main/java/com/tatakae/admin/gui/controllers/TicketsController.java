@@ -25,15 +25,16 @@ public class TicketsController {
         openedTicketsScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         try {
-            var tickets = RoomService.getAllTickets("3d6555c768870f37c9998c7544f35087");
-            for (var ticket : tickets) {
+            final var tickets = RoomService.getAllTickets("3d6555c768870f37c9998c7544f35087");
+
+            for (final var ticket : tickets) {
                 Button button = new Button(ticket.getName());
                 button.setAlignment(Pos.CENTER_LEFT);
                 button.setMinWidth(1200);
                 button.setMinHeight(60);
                 button.setStyle("-fx-background-color: brown; -fx-text-fill: white; -fx-font-size: 20;");
 
-                EventHandler<ActionEvent> event = e -> loadChatView();
+                EventHandler<ActionEvent> event = e -> loadChatView(ticket.getId());
                 button.setOnAction(event);
 
                 VBox.setMargin(button, new Insets(15, 25, 15, 25));
@@ -46,7 +47,7 @@ public class TicketsController {
         }
     }
 
-    private void loadChatView() {
-
+    private void loadChatView(final String id) {
+        System.out.println("hello " + id);
     }
 }
