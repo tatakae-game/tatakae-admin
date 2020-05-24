@@ -13,7 +13,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/PluginView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/HomeView.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/styles/tickets.css").toExternalForm());
