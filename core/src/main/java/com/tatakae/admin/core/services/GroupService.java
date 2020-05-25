@@ -1,7 +1,7 @@
 package com.tatakae.admin.core.services;
 
 import com.tatakae.admin.core.Exceptions.FailedParsingJsonException;
-import com.tatakae.admin.core.Group;
+import com.tatakae.admin.core.models.Group;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
 
