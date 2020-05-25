@@ -1,6 +1,6 @@
 package com.tatakae.admin.cli;
 
-import com.tatakae.admin.core.Credentials;
+import com.tatakae.admin.core.models.Credentials;
 import com.tatakae.admin.core.services.AuthService;
 
 import java.util.Scanner;
@@ -36,8 +36,6 @@ class Application {
 
         System.out.print("\tPassword: ");
         var password = scanner.next();
-
-        scanner.close();
 
         return new Credentials(username, password);
     }
