@@ -4,17 +4,13 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.tatakae.admin.core.Exceptions.CannotCreatePluginsDirectoryException;
 import com.tatakae.admin.core.Exceptions.FailedLoadingPluginException;
-
-import net.harawata.appdirs.AppDirsFactory;
 
 public class PluginManager {
     public List<PluginEnvironment> environments = new ArrayList<>();
@@ -29,9 +25,9 @@ public class PluginManager {
 
     private void loadPlugins() {
         try {
-            final var pluginsDirectory = this.getPluginsDirectory();
+            final var pluginsDirectory = StoredDataManager.getFile("plugins");
 
-            Stream<Path> paths = Files.walk(pluginsDirectory);
+            Stream<Path> paths = Files.walk(pluginsDirectory.toPath());
 
             final var environments = paths.filter(Files::isRegularFile).map((path) -> {
                 try {
@@ -44,31 +40,11 @@ public class PluginManager {
                 }
             });
 
-            this.environments = environments.filter(plugin -> Objects.nonNull(plugin)).collect(Collectors.toList());
+            this.environments = environments.filter(Objects::nonNull).collect(Collectors.toList());
             paths.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public Path getPluginsDirectory() throws CannotCreatePluginsDirectoryException {
-        final var pluginsDirectory = this.getDataDirectory().resolve("plugins");
-        final var pluginsDirectoryFile = pluginsDirectory.toFile();
-
-        if (!pluginsDirectoryFile.exists()) {
-            if (!pluginsDirectoryFile.mkdirs()) {
-                throw new CannotCreatePluginsDirectoryException("Can't create plugins directory.");
-            }
-        }
-
-        return pluginsDirectory;
-    }
-
-    private Path getDataDirectory() {
-        final var appDirs = AppDirsFactory.getInstance();
-        final var dataDirectory = appDirs.getUserConfigDir("tatakae", null, "tatakae-admin");
-
-        return Paths.get(dataDirectory);
     }
 
     private PluginEnvironment loadPlugin(final Path path) throws FailedLoadingPluginException {

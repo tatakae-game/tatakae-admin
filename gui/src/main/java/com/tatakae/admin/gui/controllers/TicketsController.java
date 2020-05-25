@@ -25,7 +25,7 @@ public class TicketsController {
         openedTicketsScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         try {
-            final var tickets = RoomService.getAllTickets("3d6555c768870f37c9998c7544f35087");
+            final var tickets = RoomService.getAllTickets();
 
             for (final var ticket : tickets) {
                 Button button = new Button(ticket.getName());
@@ -43,7 +43,7 @@ public class TicketsController {
             }
 
         } catch(Exception e) {
-            System.err.println(e.getMessage());;
+            System.err.println(e.getMessage());
         }
     }
 

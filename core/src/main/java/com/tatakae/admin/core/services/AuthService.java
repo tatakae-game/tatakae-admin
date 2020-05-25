@@ -1,10 +1,12 @@
 package com.tatakae.admin.core.services;
 
 import com.tatakae.admin.core.Config;
-import com.tatakae.admin.core.User;
+import com.tatakae.admin.core.StoredDataManager;
+import com.tatakae.admin.core.models.User;
 
 import kong.unirest.Unirest;
 
+import java.io.FileWriter;
 import java.util.concurrent.ExecutionException;
 
 public class AuthService {
@@ -21,6 +23,13 @@ public class AuthService {
 
             if (isAdmin(user)) {
                 authed = true;
+                final var configFile = StoredDataManager.getFile("config.json");
+                String jsonContent = "{\"token\": \"" + token + "\"}";
+
+                final var fw = new FileWriter(configFile);
+                fw.write(jsonContent);
+                fw.flush();
+                fw.close();
             }
 
             return user;
