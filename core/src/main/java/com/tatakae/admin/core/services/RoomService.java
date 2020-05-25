@@ -2,8 +2,9 @@ package com.tatakae.admin.core.services;
 
 import com.tatakae.admin.core.Config;
 import com.tatakae.admin.core.Exceptions.FailedParsingJsonException;
-import com.tatakae.admin.core.Message;
-import com.tatakae.admin.core.Room;
+import com.tatakae.admin.core.models.Message;
+import com.tatakae.admin.core.models.Room;
+import com.tatakae.admin.core.StoredDataManager;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
@@ -14,12 +15,12 @@ import java.util.ArrayList;
 public class RoomService {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
-    public static ArrayList<Room> getAllTickets(final String token)
+    public static ArrayList<Room> getAllTickets()
             throws FailedParsingJsonException {
         try {
             var res = Unirest.get(Config.url + "/support/tickets")
                     .header("accept", "application/json")
-                    .header("Authorization", token)
+                    .header("Authorization", StoredDataManager.getToken())
                     .asJsonAsync().get().getBody().getObject();
 
             return serialize(res.getJSONArray("rooms"));
@@ -46,8 +47,8 @@ public class RoomService {
             var id = jRoom.getString("_id");
             var name = jRoom.getString("name");
             var status = jRoom.getString("status");
-            var author = UserService.getUserById(jRoom.getString("author"), "3d6555c768870f37c9998c7544f35087");
-            var assignedTo = jRoom.has("assigned_to") ? UserService.getUserById(jRoom.getString("assigned_to"), "3d6555c768870f37c9998c7544f35087") : null;
+            var author = UserService.getUserById(jRoom.getString("author"));
+            var assignedTo = jRoom.has("assigned_to") ? UserService.getUserById(jRoom.getString("assigned_to")) : null;
             var created = LocalDateTime.parse(jRoom.getString("created"), formatter);
             var isTicket = jRoom.getBoolean("is_ticket");
             var users = UserService.serialize(jRoom.getJSONArray("users"));
