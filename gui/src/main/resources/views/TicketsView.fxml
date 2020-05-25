@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1270.0" style="-fx-background-color: #14093b;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tatakae.admin.gui.controllers.TicketsController">
+   <children>
+      <TabPane fx:id="ticketsTabPane" tabClosingPolicy="UNAVAILABLE" tabMinHeight="25.0" tabMinWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Opened">
+            <content>
+              <AnchorPane prefHeight="800.0" prefWidth="1270.0" style="-fx-background-color: #14093b; -fx-border-color: #14093b;">
+                     <children>
+                        <ScrollPane fx:id="openedTicketsScrollPane" fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <content>
+                            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1250.0" style="-fx-background-color: #14093b;">
+                                 <children>
+                                    <VBox fx:id="ticketsListContainer" prefHeight="800.0" prefWidth="1260.0" style="-fx-background-color: #14093b;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+               <styleClass>
+                  <String fx:value="openTicketsTab" />
+                  <String fx:value="tab-label" />
+               </styleClass>
+          </Tab>
+          <Tab styleClass="openTicketsTab" text="Closed">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
