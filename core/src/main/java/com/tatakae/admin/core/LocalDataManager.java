@@ -13,12 +13,24 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class StoredDataManager {
+public class LocalDataManager {
 
     public static File getFile(final String filename) throws CannotCreateFileException {
         try {
-            final var filePath= getDataDirectory().resolve(filename);
-            createIfNotExist(filePath);
+            final var filePath = getDataDirectory().resolve(filename);
+            createFileIfNotExist(filePath);
+
+            return filePath.toFile();
+
+        } catch (Exception e) {
+            throw new CannotCreateFileException(e.getMessage());
+        }
+    }
+
+    public static File getDirectory(final String filename) throws CannotCreateFileException {
+        try {
+            final var filePath = getDataDirectory().resolve(filename);
+            createDirectoryIfNotExist(filePath);
 
             return filePath.toFile();
 
@@ -34,13 +46,18 @@ public class StoredDataManager {
         return Paths.get(dataDirectory);
     }
 
-    private static void createIfNotExist(final Path path) throws CannotCreateFileException, IOException {
+    private static void createFileIfNotExist(final Path path) throws IOException {
         if (!Files.exists(path)) {
-            final var extension = FilenameUtils.getExtension(path.toString());
-            final var created = extension.isEmpty() ? path.toFile().mkdir() : path.toFile().createNewFile();
+            if (!path.toFile().createNewFile()) {
+                throw new IOException("Can't create file: " + path);
+            }
+        }
+    }
 
-            if (!created) {
-                throw new CannotCreateFileException("Can't create file.");
+    private static void createDirectoryIfNotExist(final Path path) throws IOException {
+        if (!Files.exists(path)) {
+            if (!path.toFile().mkdirs()) {
+                throw new IOException("Can't create directory: " + path);
             }
         }
     }
