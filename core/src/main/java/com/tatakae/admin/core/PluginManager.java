@@ -25,7 +25,7 @@ public class PluginManager {
 
     private void loadPlugins() {
         try {
-            final var pluginsDirectory = StoredDataManager.getFile("plugins");
+            final var pluginsDirectory = LocalDataManager.getDirectory("plugins");
 
             Stream<Path> paths = Files.walk(pluginsDirectory.toPath());
 
