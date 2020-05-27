@@ -3,7 +3,6 @@ package com.tatakae.admin.core;
 import com.tatakae.admin.core.Exceptions.CannotCreateFileException;
 import kong.unirest.json.JSONObject;
 import net.harawata.appdirs.AppDirsFactory;
-import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
