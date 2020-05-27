@@ -4,7 +4,7 @@ import com.tatakae.admin.core.Config;
 import com.tatakae.admin.core.Exceptions.FailedParsingJsonException;
 import com.tatakae.admin.core.models.Message;
 import com.tatakae.admin.core.models.Room;
-import com.tatakae.admin.core.StoredDataManager;
+import com.tatakae.admin.core.LocalDataManager;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
@@ -20,7 +20,7 @@ public class RoomService {
         try {
             var res = Unirest.get(Config.url + "/support/tickets")
                     .header("accept", "application/json")
-                    .header("Authorization", StoredDataManager.getToken())
+                    .header("Authorization", LocalDataManager.getToken())
                     .asJsonAsync().get().getBody().getObject();
 
             return serialize(res.getJSONArray("rooms"));

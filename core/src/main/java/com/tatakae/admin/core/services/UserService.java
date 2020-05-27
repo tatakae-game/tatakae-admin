@@ -2,7 +2,7 @@ package com.tatakae.admin.core.services;
 
 import com.tatakae.admin.core.Config;
 import com.tatakae.admin.core.Exceptions.FailedParsingJsonException;
-import com.tatakae.admin.core.StoredDataManager;
+import com.tatakae.admin.core.LocalDataManager;
 import com.tatakae.admin.core.models.User;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONArray;
@@ -16,7 +16,7 @@ public class UserService {
         try {
             var res = Unirest.get(Config.url + "/users/" + id)
                     .header("accept", "application/json")
-                    .header("Authorization", StoredDataManager.getToken())
+                    .header("Authorization", LocalDataManager.getToken())
                     .asJsonAsync().get().getBody().getObject();
 
             return UserService.serialize(res.getJSONObject("profile"));
