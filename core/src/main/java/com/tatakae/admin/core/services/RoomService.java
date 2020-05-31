@@ -8,6 +8,8 @@ import com.tatakae.admin.core.LocalDataManager;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
+import org.json.JSONException;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -15,8 +17,7 @@ import java.util.ArrayList;
 public class RoomService {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
-    public static ArrayList<Room> getAllTickets()
-            throws FailedParsingJsonException {
+    public static ArrayList<Room> getAllTickets() throws FailedParsingJsonException {
         try {
             var res = Unirest.get(Config.url + "/support/tickets")
                     .header("accept", "application/json")
@@ -29,6 +30,40 @@ public class RoomService {
         } catch (Exception e) {
             throw new FailedParsingJsonException(
                     "Failed to parse JSON Room: " + e.getMessage());
+        }
+    }
+
+    public static boolean updateStatus(final String id, final String status) throws FailedParsingJsonException {
+        try {
+            var res = Unirest.put(Config.url + "/support/tickets/{id}/status")
+                    .header("accept", "application/json")
+                    .header("Authorization", LocalDataManager.getToken())
+                    .routeParam("id", id)
+                    .field("status", status.toLowerCase())
+                    .asJsonAsync().get().getBody().getObject();
+
+            return res.getBoolean("success");
+
+        } catch (Exception e) {
+            throw new FailedParsingJsonException(
+                    "Failed to parse JSON response: " + e.getMessage());
+        }
+    }
+
+    public static boolean updateAssignedTo(final String id, final String userId) throws FailedParsingJsonException {
+        try {
+            var res = Unirest.put(Config.url + "/support/tickets/{id}/assign")
+                    .header("accept", "application/json")
+                    .header("Authorization", LocalDataManager.getToken())
+                    .routeParam("id", id)
+                    .field("user", userId.toLowerCase())
+                    .asJsonAsync().get().getBody().getObject();
+
+            return res.getBoolean("success");
+
+        } catch (Exception e) {
+            throw new FailedParsingJsonException(
+                    "Failed to parse JSON response: " + e.getMessage());
         }
     }
 
@@ -67,19 +102,35 @@ public class RoomService {
             ArrayList<Message> messages = new ArrayList<>();
 
             for (int i = 0; i < jMessages.length(); i++) {
-                var jMessage = jMessages.getJSONObject(i);
-                var id = jMessage.getString("_id");
-                var type = jMessage.getString("type");
-                var data = jMessage.getString("data");
-                var date = LocalDateTime.parse(jMessage.getString("date"), formatter);
-                messages.add(new Message(id, type, data, date));
+                messages.add(serializeMessage(jMessages.getJSONObject(i)));
             }
 
             return messages;
 
         } catch (Exception e) {
             throw new FailedParsingJsonException(
-                    "Failed to parse JSON messages" + e.getMessage());
+                    "Failed to parse JSON messages: " + e.getMessage());
         }
+    }
+
+    public static Message serializeMessage(final org.json.JSONObject jMessage) throws FailedParsingJsonException, JSONException {
+        final var id = (jMessage.has("_id")) ? jMessage.getString("_id"): "";
+        return getMessage(id, jMessage.getString("type"), jMessage.getString("data"), jMessage.getString("date"), jMessage.getString("author"));
+    }
+
+    private static Message getMessage(final String id, final String type, final String data, final String date, final String author) throws FailedParsingJsonException {
+        try {
+            var created = LocalDateTime.parse(date, formatter);
+            return new Message(id, type, data, created, author);
+
+        } catch (Exception e) {
+            throw new FailedParsingJsonException(
+                    "Failed to parse JSON message: " + e.getMessage());
+        }
+    }
+
+    public static Message serializeMessage(final JSONObject jMessage) throws FailedParsingJsonException {
+        final var id = (jMessage.has("_id")) ? jMessage.getString("_id"): "";
+        return getMessage(id, jMessage.getString("type"), jMessage.getString("data"), jMessage.getString("date"), jMessage.getString("author"));
     }
 }

@@ -12,6 +12,21 @@ import java.util.ArrayList;
 
 public class UserService {
 
+    public static ArrayList<User> getAdministrators() throws FailedParsingJsonException {
+        try {
+            var res = Unirest.get(Config.url + "/users/admins")
+                    .header("accept", "application/json")
+                    .header("Authorization", LocalDataManager.getToken())
+                    .asJsonAsync().get().getBody().getObject();
+
+            return UserService.serialize(res.getJSONArray("users"));
+
+        } catch (Exception e) {
+            throw new FailedParsingJsonException(
+                    "Failed to parse JSON Users list: " + e.getMessage());
+        }
+    }
+
     public static User getUserById(final String id) throws FailedParsingJsonException {
         try {
             var res = Unirest.get(Config.url + "/users/" + id)
@@ -20,6 +35,7 @@ public class UserService {
                     .asJsonAsync().get().getBody().getObject();
 
             return UserService.serialize(res.getJSONObject("profile"));
+
         } catch (Exception e) {
             throw new FailedParsingJsonException(
                     "Failed to parse JSON User: " + e.getMessage());
@@ -34,7 +50,6 @@ public class UserService {
                     .asJsonAsync().get().getBody().getObject();
 
             return serialize(res.getJSONObject("profile"));
-
 
         } catch (Exception e) {
             throw new FailedParsingJsonException(
