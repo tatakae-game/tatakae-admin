@@ -1,4 +1,4 @@
-package com.tatakae.admin.core;
+package com.tatakae.admin.core.models;
 
 import java.util.ArrayList;
 
@@ -7,14 +7,12 @@ public class User {
     private final String username;
     private final String email;
     private final ArrayList<Group> groups;
-    private final String token;
 
     public User() {
         this.id = "";
         this.username = "";
         this.email = "";
         this.groups = null;
-        this.token = "";
     }
 
     public User(final String id, final String username, final String email,
@@ -23,16 +21,6 @@ public class User {
         this.username = username;
         this.email = email;
         this.groups = groups;
-        this.token = "";
-    }
-
-    public User(final String id, final String username, final String email,
-                final ArrayList<Group> groups, final String token) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.groups = groups;
-        this.token = token;
     }
 
     public String getId() {
@@ -41,10 +29,6 @@ public class User {
 
     public String getUsername() {
         return username;
-    }
-
-    public String getToken() {
-        return token;
     }
 
     public ArrayList<Group> getGroups() { return groups; }
@@ -58,7 +42,6 @@ public class User {
                 ", username: '" + username + '\'' +
                 ", email: '" + email + '\'' +
                 ", groups: " + groups +
-                ", token: '" + token + '\'' +
                 '}';
     }
 }

@@ -1,4 +1,4 @@
-package com.tatakae.admin.core;
+package com.tatakae.admin.core.models;
 
 import java.time.LocalDateTime;
 

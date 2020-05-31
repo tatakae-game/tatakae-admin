@@ -1,4 +1,4 @@
-package com.tatakae.admin.core;
+package com.tatakae.admin.core.models;
 
 public class Permission {
     private final String id;
