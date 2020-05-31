@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="homeAnchorPane" prefHeight="479.0" prefWidth="770.0" style="-fx-background-color: #14093b;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tatakae.admin.gui.controllers.HomeController">
+<AnchorPane fx:id="homeAnchorPane" prefHeight="479.0" prefWidth="770.0" style="-fx-background-color: #14093b;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tatakae.admin.gui.controllers.HomeViewController">
    <children>
       <VBox layoutX="268.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="268.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
