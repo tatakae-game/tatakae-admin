@@ -9,10 +9,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class HomeController {
+import java.io.IOException;
 
-    @FXML
-    private AnchorPane homeAnchorPane;
+public class HomeViewController {
 
     @FXML
     private AnchorPane viewsContainer;
@@ -42,7 +41,11 @@ public class HomeController {
 
     @FXML
     public void loadTicketsView() {
-        System.out.println("Display tickets view");
+        try {
+            viewsContainer.getChildren().setAll((Node)FXMLLoader.load(getClass().getResource("/views/TicketsView.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

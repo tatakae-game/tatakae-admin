@@ -6,13 +6,23 @@ public class Message {
     private final String id;
     private final String type;
     private final String data;
+    private final String author;
     private final LocalDateTime date;
 
-    public Message(String id, String type, String data, LocalDateTime date) {
+    public Message(final String type, final String data, final String author) {
+        this.id = "";
+        this.type = type;
+        this.data = data;
+        this.date = null;
+        this.author = author;
+    }
+
+    public Message(String id, String type, String data, LocalDateTime date, final String author) {
         this.id = id;
         this.type = type;
         this.data = data;
         this.date = date;
+        this.author = author;
     }
 
     public String getId() {
@@ -31,10 +41,15 @@ public class Message {
         return date;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
     @Override
     public String toString() {
         return "{" +
                 "id:'" + id + '\'' +
+                ", author:'" + author + '\'' +
                 ", type:'" + type + '\'' +
                 ", data:'" + data + '\'' +
                 ", date:" + date +
