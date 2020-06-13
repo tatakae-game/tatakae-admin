@@ -30,8 +30,11 @@ public class HomeViewController {
 
     @FXML
     public void loadPluginsView() {
-        System.out.println("Display plugins view");
-        addButtonInVBox("Toto");
+        try {
+            viewsContainer.getChildren().setAll((Node)FXMLLoader.load(getClass().getResource("/views/PluginView.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
