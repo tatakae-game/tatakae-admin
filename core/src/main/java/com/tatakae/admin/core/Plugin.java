@@ -6,4 +6,6 @@ public interface Plugin {
     public void start();
 
     public URL getView();
+
+    public String getName();
 }
