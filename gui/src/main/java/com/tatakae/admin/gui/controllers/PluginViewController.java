@@ -41,11 +41,13 @@ public class PluginViewController {
 
     final var file = fileChooser.showOpenDialog(stage);
 
-    if (!pluginManager.importPlugin(file)) {
-      System.out.println("File imported is not a valid plugin.");
-    } else {
-      System.out.println("New plugin added");
-      displayPluginList();
+    if (file != null) {
+      if (!pluginManager.importPlugin(file)) {
+        System.out.println("File imported is not a valid plugin.");
+      } else {
+        System.out.println("New plugin added");
+        displayPluginList();
+      }
     }
   }
 
