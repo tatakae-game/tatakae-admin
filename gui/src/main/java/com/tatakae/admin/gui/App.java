@@ -28,7 +28,7 @@ public class App extends Application {
 
     public static void main(String[] args) {
         try {
-            final var manager = new PluginManager();
+            final var manager = PluginManager.getInstance();
             manager.startPlugins();
         } catch (Exception e) {
             System.err.println(e.getMessage());

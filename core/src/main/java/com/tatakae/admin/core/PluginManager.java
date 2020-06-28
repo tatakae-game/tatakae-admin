@@ -20,6 +20,8 @@ public class PluginManager {
     public List<PluginEnvironment> environmentsInactive = new ArrayList<>();
     public Map<PluginEnvironment, String> environments = new HashMap<>();
 
+    private static PluginManager instance = null;
+
     public PluginManager() {
         this.loadPlugins();
     }

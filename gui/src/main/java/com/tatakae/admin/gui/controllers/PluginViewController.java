@@ -27,7 +27,7 @@ public class PluginViewController {
   private PluginManager pluginManager;
 
   public void initialize() {
-    pluginManager = new PluginManager();
+    pluginManager = PluginManager.getInstance();
 
     displayPluginList();
   }
