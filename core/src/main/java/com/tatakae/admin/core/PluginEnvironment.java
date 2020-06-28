@@ -19,4 +19,8 @@ public class PluginEnvironment {
     public Plugin getPlugin() {
         return plugin;
     }
+
+    public URLClassLoader getLoader() {
+        return loader;
+    }
 }
