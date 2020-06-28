@@ -70,9 +70,16 @@ public class PluginViewController {
     button.setMinWidth(100);
 
     EventHandler<ActionEvent> event = e -> {
-      final var text = button.getText().equals("Enable") ? "Disable" : "Enable";
-      button.setText(text);
+      boolean isMoved = pluginManager.findAndMovePlugin(label.getText(), button.getText());
+
+      if (isMoved) {
+        final var text = button.getText().equals("Enable") ? "Disable" : "Enable";
+        button.setText(text);
+      } else {
+        System.out.println("Display error alert TODO");
+      }
     };
+
     button.setOnAction(event);
 
     var hBox = new HBox();
