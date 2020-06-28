@@ -6,7 +6,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,6 +13,7 @@ import java.util.stream.Stream;
 
 import com.tatakae.admin.core.Exceptions.CannotCreateFileException;
 import com.tatakae.admin.core.Exceptions.FailedLoadingPluginException;
+import com.tatakae.admin.core.Exceptions.PluginNotFoundException;
 
 public class PluginManager {
     public List<PluginEnvironment> environmentsActive = new ArrayList<>();
@@ -101,20 +101,137 @@ public class PluginManager {
 
     public boolean importPlugin(final File file) {
         try {
-            loadPlugin(file.toPath());
-
+            final var env = loadPlugin(file.toPath());
+            env.getLoader().close();
             final var pluginDirectory = LocalDataManager.getDirectory("plugins/inactive").toPath();
-            final var copiedFile = Paths.get(pluginDirectory + "/" + file.getName());
+            final var destination = pluginDirectory.resolve(file.getName());
 
-            Files.copy(file.toPath(), copiedFile, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(file.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
 
-            loadPlugins();
+            final var environment = loadPlugin(destination);
+            environmentsInactive.add(environment);
+            environments.put(environment, "Enable");
 
-            return Files.exists(copiedFile);
+            return Files.exists(destination);
 
         } catch (CannotCreateFileException | IOException | FailedLoadingPluginException e) {
             System.err.println(e.getMessage());
             return false;
         }
+    }
+
+    public boolean findAndMovePlugin(final String name, final String action) {
+        try {
+            final var activePluginDirectory = LocalDataManager.getDirectory("plugins/active");
+            final var inactivePluginDirectory = LocalDataManager.getDirectory("plugins/inactive");
+
+            final var activeFilesList = Objects.requireNonNull(activePluginDirectory.listFiles());
+            final var inactiveFilesList = Objects.requireNonNull(inactivePluginDirectory.listFiles());
+
+            boolean hasBeenMoved;
+
+            if (action.equals("Disable")) {
+                hasBeenMoved = movePlugin(name, activeFilesList, inactivePluginDirectory.toPath(), false);
+            } else {
+                hasBeenMoved = movePlugin(name, inactiveFilesList, activePluginDirectory.toPath(), true);
+            }
+
+            return hasBeenMoved;
+
+        } catch (CannotCreateFileException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    private boolean move(final PluginEnvironment pluginEnv,
+                      final Path source,
+                      final Path destination,
+                      final boolean moveToActiveDirectory) {
+        try {
+            removePluginFromEnvironment(pluginEnv, moveToActiveDirectory);
+
+            Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
+
+            final var env = loadPlugin(destination);
+
+            if (moveToActiveDirectory) {
+                env.getPlugin().start();
+                environmentsActive.add(env);
+            } else {
+                environmentsInactive.add(env);
+            }
+
+            final var action = moveToActiveDirectory ? "Disable" : "Enable";
+            environments.put(env, action);
+
+            return true;
+
+        } catch (IOException | FailedLoadingPluginException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void removePluginFromEnvironment(final PluginEnvironment pluginEnvironment, boolean activeEnv)
+            throws IOException {
+
+        pluginEnvironment.getLoader().close();
+
+        if (!activeEnv) {
+            environmentsInactive.remove(pluginEnvironment);
+        } else {
+            environmentsActive.remove(pluginEnvironment);
+        }
+
+        environments.remove(pluginEnvironment);
+    }
+
+    private PluginEnvironment getEnvironmentByPluginName(String pluginName) throws PluginNotFoundException {
+        for (var env : environments.entrySet()) {
+            if (env.getKey().getPlugin().getName().equals(pluginName)) {
+                return env.getKey();
+            }
+        }
+        throw new PluginNotFoundException("Plugin named: " + pluginName + " does not exist.");
+    }
+
+    private boolean movePlugin(String pluginName, File[] pluginFiles, Path destinationDirectory, boolean activate) {
+        try {
+            final var sourceFile = getJarFilenameFromPluginName(pluginName, pluginFiles);
+
+            if (sourceFile.isPresent()) {
+                final var destinationPath = destinationDirectory.resolve(sourceFile.get().getName());
+                final var pluginEnv = getEnvironmentByPluginName(pluginName);
+
+                return move(pluginEnv,sourceFile.get().toPath(), destinationPath, activate);
+
+            } else {
+                return false;
+            }
+        } catch (PluginNotFoundException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    private Optional<File> getJarFilenameFromPluginName(String name, File[] sourceDirectory) {
+        try {
+            for (final var file : sourceDirectory) {
+                final var env = loadPlugin(file.toPath());
+
+                if (env.getPlugin().getName().equals(name)) {
+                    env.getLoader().close();
+
+                    return Optional.of(file);
+                }
+
+                env.getLoader().close();
+            }
+        } catch (FailedLoadingPluginException | IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return Optional.empty();
     }
 }
