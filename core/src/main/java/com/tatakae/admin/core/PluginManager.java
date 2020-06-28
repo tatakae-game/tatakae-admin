@@ -24,6 +24,13 @@ public class PluginManager {
         this.loadPlugins();
     }
 
+    public static PluginManager getInstance() {
+        if (instance == null) {
+            instance = new PluginManager();
+        }
+        return instance;
+    }
+
     public void startPlugins() {
         this.environmentsActive.forEach(env -> env.getPlugin().start());
     }
