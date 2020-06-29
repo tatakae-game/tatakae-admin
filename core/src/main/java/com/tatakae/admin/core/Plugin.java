@@ -8,4 +8,6 @@ public interface Plugin {
     public URL getView();
 
     public String getName();
+
+    public String getDescription();
 }
