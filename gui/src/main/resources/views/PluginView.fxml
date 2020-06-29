@@ -26,7 +26,7 @@
                                 <content>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
                                        <children>
-                                          <ListView fx:id="pluginsList" prefHeight="730.0" prefWidth="628.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <ListView fx:id="pluginsList" onMouseClicked="#getPluginDetails" prefHeight="730.0" prefWidth="628.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                   </AnchorPane>
                                 </content>
@@ -37,7 +37,30 @@
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <VBox fx:id="pluginDetailsContainer" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <VBox fx:id="pluginDetailsContainer" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label fx:id="pluginNameSelected">
+                                 <font>
+                                    <Font name="System Bold" size="48.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="25.0" top="25.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label text="Description: ">
+                                 <VBox.margin>
+                                    <Insets left="25.0" top="100.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="pluginDescriptionSelected" text="Label">
+                                 <VBox.margin>
+                                    <Insets left="20.0" top="12.0" />
+                                 </VBox.margin>
+                              </Label>
+                           </children></VBox>
                      </children>
                   </AnchorPane>
               </items>
