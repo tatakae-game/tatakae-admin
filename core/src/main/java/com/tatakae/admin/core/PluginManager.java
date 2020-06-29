@@ -186,7 +186,7 @@ public class PluginManager {
         environments.remove(pluginEnvironment);
     }
 
-    private PluginEnvironment getEnvironmentByPluginName(String pluginName) throws PluginNotFoundException {
+    public PluginEnvironment getEnvironmentByPluginName(String pluginName) throws PluginNotFoundException {
         for (var env : environments.entrySet()) {
             if (env.getKey().getPlugin().getName().equals(pluginName)) {
                 return env.getKey();
