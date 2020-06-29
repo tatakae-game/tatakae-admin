@@ -115,7 +115,6 @@ public class PluginManager {
             return Files.exists(destination);
 
         } catch (CannotCreateFileException | IOException | FailedLoadingPluginException e) {
-            System.err.println(e.getMessage());
             return false;
         }
     }
