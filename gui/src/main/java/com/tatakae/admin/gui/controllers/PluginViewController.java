@@ -1,5 +1,6 @@
 package com.tatakae.admin.gui.controllers;
 
+import com.tatakae.admin.core.Exceptions.PluginNotFoundException;
 import com.tatakae.admin.core.PluginManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
@@ -17,10 +17,10 @@ import javafx.stage.Stage;
 public class PluginViewController {
 
   @FXML
-  TextField PluginFilePathField;
+  private Label pluginNameSelected;
 
   @FXML
-  private Button selectPluginButton;
+  private Label pluginDescriptionSelected;
 
   @FXML
   private ListView<HBox> pluginsList;
@@ -31,6 +31,22 @@ public class PluginViewController {
     pluginManager = PluginManager.getInstance();
 
     displayPluginList();
+  }
+
+  @FXML
+  public void getPluginDetails() {
+    try {
+      final var selectedItem = pluginsList.getSelectionModel().getSelectedItem();
+      final var pluginName = (Label) selectedItem.getChildren().get(0);
+
+      final var env = pluginManager.getEnvironmentByPluginName(pluginName.getText());
+
+      pluginNameSelected.setText(pluginName.getText());
+      pluginDescriptionSelected.setText(env.getPlugin().getDescription());
+
+    } catch (PluginNotFoundException e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   @FXML
