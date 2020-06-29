@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -16,17 +17,20 @@
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <SplitPane dividerPositions="0.5" prefHeight="742.0" prefWidth="1268.0">
+            <SplitPane dividerPositions="0.5" prefHeight="742.0" prefWidth="1268.0" style="-fx-background-color: transparent;">
               <items>
-                <AnchorPane prefHeight="502.0">
+                <AnchorPane prefHeight="502.0" style="-fx-background-color: transparent;">
                      <children>
-                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <ScrollPane fitToWidth="true" prefHeight="735.0" prefWidth="630.0">
+                              <ScrollPane fitToWidth="true" prefHeight="735.0" prefWidth="630.0" style="-fx-background-color: transparent;">
                                 <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0" style="-fx-background-color: transparent;">
                                        <children>
-                                          <ListView fx:id="pluginsList" onMouseClicked="#getPluginDetails" prefHeight="730.0" prefWidth="628.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <ListView fx:id="pluginsList" onMouseClicked="#getPluginDetails" prefHeight="735.0" prefWidth="628.0" style="-fx-background-color: #14093b;" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor></ListView>
                                        </children>
                                   </AnchorPane>
                                 </content>
@@ -35,11 +39,11 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: transparent;">
                      <children>
-                        <VBox fx:id="pluginDetailsContainer" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox fx:id="pluginDetailsContainer" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label fx:id="pluginNameSelected">
+                              <Label fx:id="pluginNameSelected" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="48.0" />
                                  </font>
@@ -47,19 +51,18 @@
                                     <Insets left="25.0" top="25.0" />
                                  </VBox.margin>
                               </Label>
-                              <Label text="Description: ">
+                              <Label text="Description: " textFill="WHITE">
                                  <VBox.margin>
-                                    <Insets left="25.0" top="100.0" />
+                                    <Insets left="25.0" top="50.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="pluginDescriptionSelected" text="Label">
+                              <TextArea fx:id="pluginDescriptionSelected" editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent;" wrapText="true">
                                  <VBox.margin>
-                                    <Insets left="20.0" top="12.0" />
-                                 </VBox.margin>
-                              </Label>
+                                    <Insets left="25.0" right="25.0" top="5.0" />
+                                 </VBox.margin></TextArea>
                            </children></VBox>
                      </children>
                   </AnchorPane>

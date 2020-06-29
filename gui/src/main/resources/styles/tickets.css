@@ -2,6 +2,34 @@
     -fx-focus-color: transparent;
 }
 
+.list-view
+{
+    -fx-background-color: transparent;
+}
+
+.list-cell
+{
+    -fx-background-color: transparent;
+}
+
+.text-area {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
 .tab-pane *.tab-header-background {
     -fx-background-color: #0a041c;
     -fx-effect: innershadow(two-pass-box , transparent , 0, 0.0 , 0 , 0);
