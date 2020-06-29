@@ -1,6 +1,7 @@
 package com.tatakae.admin.gui.controllers;
 
 import com.tatakae.admin.core.Exceptions.PluginNotFoundException;
+import com.tatakae.admin.core.PluginEnvironment;
 import com.tatakae.admin.core.PluginManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,7 +10,9 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -20,7 +23,7 @@ public class PluginViewController {
   private Label pluginNameSelected;
 
   @FXML
-  private Label pluginDescriptionSelected;
+  private TextArea pluginDescriptionSelected;
 
   @FXML
   private ListView<HBox> pluginsList;
@@ -28,9 +31,24 @@ public class PluginViewController {
   private PluginManager pluginManager;
 
   public void initialize() {
-    pluginManager = PluginManager.getInstance();
+    try {
+      pluginManager = PluginManager.getInstance();
+      displayPluginList();
 
-    displayPluginList();
+      final var label = (Label) pluginsList.getItems().get(0).getChildren().get(0);
+      pluginNameSelected.setText(label.getText());
+
+      final var env = pluginManager.getEnvironmentByPluginName(label.getText());
+      pluginDescriptionSelected.setText(env.getPlugin().getDescription());
+
+    } catch (PluginNotFoundException e) {
+      getNoPluginDetails();
+    }
+  }
+
+  public void getNoPluginDetails() {
+    pluginNameSelected.setText("Empty");
+    pluginDescriptionSelected.setText("No plugin imported yet. Try it!");
   }
 
   @FXML
@@ -45,7 +63,9 @@ public class PluginViewController {
       pluginDescriptionSelected.setText(env.getPlugin().getDescription());
 
     } catch (PluginNotFoundException e) {
+      getNoPluginDetails();
       System.out.println(e.getMessage());
+
     }
   }
 
@@ -81,9 +101,12 @@ public class PluginViewController {
   public void addElementToPluginList(final String labelName, final String buttonName) {
     final var label = new Label(labelName);
     label.setFont(new Font(14));
+    label.setTextFill(Color.WHITE);
 
     final var button = new Button(buttonName);
     button.setMinWidth(100);
+    button.setTextFill(Color.WHITE);
+    button.setStyle("-fx-background-color: #0a041c");
 
     EventHandler<ActionEvent> event = e -> {
       boolean isMoved = pluginManager.findAndMovePlugin(label.getText(), button.getText());
