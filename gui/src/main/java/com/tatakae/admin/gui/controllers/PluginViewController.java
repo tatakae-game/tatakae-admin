@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
@@ -22,7 +23,7 @@ public class PluginViewController {
   private Button selectPluginButton;
 
   @FXML
-  private VBox pluginsListContainer;
+  private ListView<HBox> pluginsList;
 
   private PluginManager pluginManager;
 
@@ -52,7 +53,7 @@ public class PluginViewController {
   }
 
   public void displayPluginList() {
-    pluginsListContainer.getChildren().clear();
+    pluginsList.getItems().clear();
 
     for (final var env : pluginManager.environments.entrySet()) {
       final var label = env.getKey().getPlugin().getName();
@@ -64,7 +65,6 @@ public class PluginViewController {
   public void addElementToPluginList(final String labelName, final String buttonName) {
     final var label = new Label(labelName);
     label.setFont(new Font(14));
-    label.setPrefWidth(1500);
 
     final var button = new Button(buttonName);
     button.setMinWidth(100);
@@ -82,11 +82,12 @@ public class PluginViewController {
 
     button.setOnAction(event);
 
-    var hBox = new HBox();
-    hBox.getChildren().addAll(label, button);
-    hBox.setPadding(new Insets(5, 10, 5, 10));
-    hBox.setPrefWidth(pluginsListContainer.getMaxWidth());
+    final var region = new Region();
+    HBox.setHgrow(region, Priority.ALWAYS);
 
-    pluginsListContainer.getChildren().add(hBox);
+    var hBox = new HBox(label, region, button);
+    hBox.setPadding(new Insets(5, 10, 5, 10));
+
+    pluginsList.getItems().add(hBox);
   }
 }
