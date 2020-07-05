@@ -1,6 +1,5 @@
 package com.tatakae.admin.gui.controllers;
 
-import com.tatakae.admin.core.Exceptions.CannotCreateFileException;
 import com.tatakae.admin.core.Exceptions.FailedParsingJsonException;
 import com.tatakae.admin.core.LocalDataManager;
 import com.tatakae.admin.core.models.Room;
@@ -19,7 +18,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -145,7 +143,7 @@ public class TicketsViewController {
                     }
                 }
             }
-        } catch (FailedParsingJsonException | CannotCreateFileException | FileNotFoundException e) {
+        } catch (FailedParsingJsonException e) {
             e.printStackTrace();
         }
     }
