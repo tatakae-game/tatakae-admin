@@ -132,19 +132,15 @@ public class TicketsViewController {
     }
 
     private void loadMyTickets(final ArrayList<Room> tickets) {
-        try {
-            final var currentUser = UserService.getUserByToken(LocalDataManager.getToken());
-            myTicketsListContainer.getChildren().clear();
-            for (final var ticket : tickets) {
-                if (ticket.getAssignedTo() != null) {
-                    if (ticket.getAssignedTo().getId().equals(currentUser.getId())) {
-                        final var button = generateTicketButton(ticket);
-                        myTicketsListContainer.getChildren().add(button);
-                    }
+        final var currentUser = UserService.getUserByToken(LocalDataManager.getToken());
+        myTicketsListContainer.getChildren().clear();
+        for (final var ticket : tickets) {
+            if (ticket.getAssignedTo() != null) {
+                if (ticket.getAssignedTo().getId().equals(currentUser.getId())) {
+                    final var button = generateTicketButton(ticket);
+                    myTicketsListContainer.getChildren().add(button);
                 }
             }
-        } catch (FailedParsingJsonException e) {
-            e.printStackTrace();
         }
     }
 

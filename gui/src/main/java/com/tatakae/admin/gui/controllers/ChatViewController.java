@@ -126,39 +126,34 @@ public class ChatViewController {
     }
 
     private void generateChatBubble(final Message message) {
-        try {
-            var currentUser = UserService.getUserByToken(LocalDataManager.getToken());
-            BubbleSpec direction;
-            Color color;
-            Pos position;
+        var currentUser = UserService.getUserByToken(LocalDataManager.getToken());
+        BubbleSpec direction;
+        Color color;
+        Pos position;
 
-            if (currentUser.getId().equals(message.getAuthor())) {
-                direction = BubbleSpec.FACE_RIGHT_CENTER;
-                color = Color.rgb(119, 182, 249);
-                position = Pos.TOP_RIGHT;
+        if (currentUser.getId().equals(message.getAuthor())) {
+            direction = BubbleSpec.FACE_RIGHT_CENTER;
+            color = Color.rgb(119, 182, 249);
+            position = Pos.TOP_RIGHT;
 
-            } else {
-                direction = BubbleSpec.FACE_LEFT_CENTER;
-                color = Color.rgb(241, 241, 241);
-                position = Pos.TOP_LEFT;
-            }
-
-            BubbledLabel bubbledLabel = new BubbledLabel(direction);
-            bubbledLabel.setText(message.getData());
-            bubbledLabel.setFont(new Font("system", 18));
-            bubbledLabel.setBackground(new Background(new BackgroundFill(color,
-                    new CornerRadii(0.5), null)));
-
-            var hBox = new HBox();
-            hBox.getChildren().add(bubbledLabel);
-            hBox.setAlignment(position);
-            VBox.setMargin(hBox, new Insets(5, 15, 5, 15));
-
-            messagesVBoxContainer.getChildren().add(hBox);
-
-        } catch (FailedParsingJsonException e) {
-            e.printStackTrace();
+        } else {
+            direction = BubbleSpec.FACE_LEFT_CENTER;
+            color = Color.rgb(241, 241, 241);
+            position = Pos.TOP_LEFT;
         }
+
+        BubbledLabel bubbledLabel = new BubbledLabel(direction);
+        bubbledLabel.setText(message.getData());
+        bubbledLabel.setFont(new Font("system", 18));
+        bubbledLabel.setBackground(new Background(new BackgroundFill(color,
+                new CornerRadii(0.5), null)));
+
+        var hBox = new HBox();
+        hBox.getChildren().add(bubbledLabel);
+        hBox.setAlignment(position);
+        VBox.setMargin(hBox, new Insets(5, 15, 5, 15));
+
+        messagesVBoxContainer.getChildren().add(hBox);
     }
 
     private void initializeMessages(final Room room) {
