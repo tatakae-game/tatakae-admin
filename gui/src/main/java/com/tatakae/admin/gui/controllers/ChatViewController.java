@@ -1,6 +1,5 @@
 package com.tatakae.admin.gui.controllers;
 
-import com.tatakae.admin.core.Exceptions.CannotCreateFileException;
 import com.tatakae.admin.core.Exceptions.FailedParsingJsonException;
 import com.tatakae.admin.core.LocalDataManager;
 import com.tatakae.admin.core.models.Message;
@@ -24,7 +23,6 @@ import javafx.scene.text.Font;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -61,23 +59,19 @@ public class ChatViewController {
 
     @FXML
     public void initialize(Room room) {
-        try {
-            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-            subjectLabel.setText(room.getName());
-            endUserLabel.setText(room.getAuthor().getUsername());
-            createdLabel.setText(room.getCreated().format(formatter));
+        subjectLabel.setText(room.getName());
+        endUserLabel.setText(room.getAuthor().getUsername());
+        createdLabel.setText(room.getCreated().format(formatter));
 
-            initializeStatus(room);
-            initializeAssignedTo(room);
-            initializeMessages(room);
-            initializeSocket(room);
+        initializeStatus(room);
+        initializeAssignedTo(room);
+        initializeMessages(room);
+        initializeSocket(room);
 
-            messageTextField.setOnKeyPressed(keyEvent -> enterKeyPressed(keyEvent.getCode()));
+        messageTextField.setOnKeyPressed(keyEvent -> enterKeyPressed(keyEvent.getCode()));
 
-        } catch (CannotCreateFileException | URISyntaxException e) {
-            e.printStackTrace();
-        }
     }
 
     private void initializeStatus(final Room room) {
@@ -162,7 +156,7 @@ public class ChatViewController {
 
             messagesVBoxContainer.getChildren().add(hBox);
 
-        } catch (FailedParsingJsonException | CannotCreateFileException | FileNotFoundException e) {
+        } catch (FailedParsingJsonException e) {
             e.printStackTrace();
         }
     }
@@ -176,7 +170,7 @@ public class ChatViewController {
     }
 
     @FXML
-    private void initializeSocket(final Room room) throws CannotCreateFileException, URISyntaxException {
+    private void initializeSocket(final Room room) {
         try {
             final var query = new HashMap<String, String>();
             query.put("room", room.getId());
@@ -185,7 +179,7 @@ public class ChatViewController {
             socket.on("new message", this::call).on(Socket.EVENT_DISCONNECT, args -> { });
             socket.connect();
 
-        } catch (URISyntaxException | CannotCreateFileException e) {
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
