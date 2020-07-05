@@ -12,7 +12,7 @@
          <children>
             <AnchorPane fx:id="viewsContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
          </children></VBox>
-      <VBox fx:id="vBoxMenuContainer" alignment="TOP_CENTER" prefHeight="479.0" prefWidth="269.0" style="-fx-background-color: #0a041c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" prefHeight="479.0" prefWidth="269.0" style="-fx-background-color: #0a041c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="57.0" fitWidth="199.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -30,30 +30,26 @@
                   <Insets bottom="48.0" top="48.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="errorsViewButton" minHeight="25.0" minWidth="178.0" mnemonicParsing="false" onAction="#loadErrorsView" style="-fx-background-color: #ca792b;" text="Errors history" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="8.0" top="42.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
-            <Button fx:id="ticketsViewButton" layoutX="56.0" layoutY="129.0" minHeight="25.0" minWidth="178.0" mnemonicParsing="false" onAction="#loadTicketsView" style="-fx-background-color: #ca792b;" text="Tickets" textFill="WHITE">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="8.0" top="24.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="groupsViewButton" layoutX="56.0" layoutY="183.0" minHeight="25.0" minWidth="178.0" mnemonicParsing="false" onAction="#loadGroupsView" style="-fx-background-color: #ca792b;" text="Permissions Groups" textFill="WHITE">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="8.0" top="24.0" />
-               </VBox.margin>
-            </Button>
+            <ScrollPane fitToHeight="true" hbarPolicy="NEVER" prefHeight="201.0" prefWidth="269.0" style="-fx-background-color: #0a041c;" vbarPolicy="NEVER">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #0a041c;">
+                     <children>
+                        <VBox fx:id="vBoxMenuContainer" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="269.0" style="-fx-background-color: #0a041c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-69.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Button fx:id="ticketsViewButton" minHeight="25.0" minWidth="178.0" mnemonicParsing="false" onAction="#loadTicketsView" style="-fx-background-color: #ca792b;" text="Tickets" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="8.0" top="24.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
          </children>
       </VBox>
    </children>
