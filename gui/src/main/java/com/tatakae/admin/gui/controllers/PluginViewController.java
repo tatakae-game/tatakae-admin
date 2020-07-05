@@ -1,7 +1,6 @@
 package com.tatakae.admin.gui.controllers;
 
 import com.tatakae.admin.core.Exceptions.PluginNotFoundException;
-import com.tatakae.admin.core.PluginEnvironment;
 import com.tatakae.admin.core.PluginManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,6 +17,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class PluginViewController {
+
+  private HomeViewController homeViewController;
 
   @FXML
   private Label pluginNameSelected;
@@ -44,6 +45,10 @@ public class PluginViewController {
     } catch (PluginNotFoundException e) {
       getNoPluginDetails();
     }
+  }
+
+  public void setHomeController(HomeViewController homeController) {
+    this.homeViewController = homeController;
   }
 
   public void getNoPluginDetails() {
@@ -114,6 +119,12 @@ public class PluginViewController {
       if (isMoved) {
         final var text = button.getText().equals("Enable") ? "Disable" : "Enable";
         button.setText(text);
+
+        if (text.equals("Disable")) {
+          this.homeViewController.addButtonInVBox(label.getText());
+        } else {
+          this.homeViewController.removeButtonFromVBox(label.getText());
+        }
       } else {
         System.out.println("Display error alert TODO");
       }
