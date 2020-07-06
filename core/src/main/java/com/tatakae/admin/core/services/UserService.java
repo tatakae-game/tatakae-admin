@@ -42,7 +42,7 @@ public class UserService {
         }
     }
 
-    public static User getUserByToken(final String token) throws FailedParsingJsonException {
+    public static User getUserByToken(final String token) {
         try {
             var res = Unirest.get(Config.url + "/users/me")
                     .header("accept", "application/json")
@@ -52,8 +52,9 @@ public class UserService {
             return serialize(res.getJSONObject("profile"));
 
         } catch (Exception e) {
-            throw new FailedParsingJsonException(
-                    "Failed to parse JSON User: " + e.getMessage());
+            return new User();
+//            throw new FailedParsingJsonException(
+//                    "Failed to parse JSON User: " + e.getMessage());
         }
     }
 

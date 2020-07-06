@@ -61,17 +61,26 @@ public class LocalDataManager {
         }
     }
 
-    public static String getToken() throws CannotCreateFileException, FileNotFoundException {
-        var config = getFile("config.json");
-        if (config.exists()) {
-            var sc = new Scanner(config);
-            var jsonObject = new JSONObject(sc.nextLine());
+    public static String getToken() {
+        try {
+            final var config = getFile("config.json");
+            String token = "";
 
-            if (jsonObject.has("token")) {
-                return jsonObject.getString("token");
+            if (config.exists()) {
+                var sc = new Scanner(config);
+                if (sc.hasNextLine()) {
+                    var jsonObject = new JSONObject(sc.nextLine());
+                    if (jsonObject.has("token")) {
+                        token = jsonObject.getString("token");
+                    }
+                }
             }
-        }
-        return "";
-    }
 
+            return token;
+
+        } catch (CannotCreateFileException | FileNotFoundException e) {
+            System.err.println(e.getMessage());
+            return "";
+        }
+    }
 }

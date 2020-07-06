@@ -1,6 +1,5 @@
 package com.tatakae.admin.gui.controllers;
 
-import com.tatakae.admin.core.Exceptions.CannotCreateFileException;
 import com.tatakae.admin.core.Exceptions.FailedParsingJsonException;
 import com.tatakae.admin.core.LocalDataManager;
 import com.tatakae.admin.core.models.Message;
@@ -24,7 +23,6 @@ import javafx.scene.text.Font;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -61,23 +59,19 @@ public class ChatViewController {
 
     @FXML
     public void initialize(Room room) {
-        try {
-            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-            subjectLabel.setText(room.getName());
-            endUserLabel.setText(room.getAuthor().getUsername());
-            createdLabel.setText(room.getCreated().format(formatter));
+        subjectLabel.setText(room.getName());
+        endUserLabel.setText(room.getAuthor().getUsername());
+        createdLabel.setText(room.getCreated().format(formatter));
 
-            initializeStatus(room);
-            initializeAssignedTo(room);
-            initializeMessages(room);
-            initializeSocket(room);
+        initializeStatus(room);
+        initializeAssignedTo(room);
+        initializeMessages(room);
+        initializeSocket(room);
 
-            messageTextField.setOnKeyPressed(keyEvent -> enterKeyPressed(keyEvent.getCode()));
+        messageTextField.setOnKeyPressed(keyEvent -> enterKeyPressed(keyEvent.getCode()));
 
-        } catch (CannotCreateFileException | URISyntaxException e) {
-            e.printStackTrace();
-        }
     }
 
     private void initializeStatus(final Room room) {
@@ -132,39 +126,34 @@ public class ChatViewController {
     }
 
     private void generateChatBubble(final Message message) {
-        try {
-            var currentUser = UserService.getUserByToken(LocalDataManager.getToken());
-            BubbleSpec direction;
-            Color color;
-            Pos position;
+        var currentUser = UserService.getUserByToken(LocalDataManager.getToken());
+        BubbleSpec direction;
+        Color color;
+        Pos position;
 
-            if (currentUser.getId().equals(message.getAuthor())) {
-                direction = BubbleSpec.FACE_RIGHT_CENTER;
-                color = Color.rgb(119, 182, 249);
-                position = Pos.TOP_RIGHT;
+        if (currentUser.getId().equals(message.getAuthor())) {
+            direction = BubbleSpec.FACE_RIGHT_CENTER;
+            color = Color.rgb(119, 182, 249);
+            position = Pos.TOP_RIGHT;
 
-            } else {
-                direction = BubbleSpec.FACE_LEFT_CENTER;
-                color = Color.rgb(241, 241, 241);
-                position = Pos.TOP_LEFT;
-            }
-
-            BubbledLabel bubbledLabel = new BubbledLabel(direction);
-            bubbledLabel.setText(message.getData());
-            bubbledLabel.setFont(new Font("system", 18));
-            bubbledLabel.setBackground(new Background(new BackgroundFill(color,
-                    new CornerRadii(0.5), null)));
-
-            var hBox = new HBox();
-            hBox.getChildren().add(bubbledLabel);
-            hBox.setAlignment(position);
-            VBox.setMargin(hBox, new Insets(5, 15, 5, 15));
-
-            messagesVBoxContainer.getChildren().add(hBox);
-
-        } catch (FailedParsingJsonException | CannotCreateFileException | FileNotFoundException e) {
-            e.printStackTrace();
+        } else {
+            direction = BubbleSpec.FACE_LEFT_CENTER;
+            color = Color.rgb(241, 241, 241);
+            position = Pos.TOP_LEFT;
         }
+
+        BubbledLabel bubbledLabel = new BubbledLabel(direction);
+        bubbledLabel.setText(message.getData());
+        bubbledLabel.setFont(new Font("system", 18));
+        bubbledLabel.setBackground(new Background(new BackgroundFill(color,
+                new CornerRadii(0.5), null)));
+
+        var hBox = new HBox();
+        hBox.getChildren().add(bubbledLabel);
+        hBox.setAlignment(position);
+        VBox.setMargin(hBox, new Insets(5, 15, 5, 15));
+
+        messagesVBoxContainer.getChildren().add(hBox);
     }
 
     private void initializeMessages(final Room room) {
@@ -176,7 +165,7 @@ public class ChatViewController {
     }
 
     @FXML
-    private void initializeSocket(final Room room) throws CannotCreateFileException, URISyntaxException {
+    private void initializeSocket(final Room room) {
         try {
             final var query = new HashMap<String, String>();
             query.put("room", room.getId());
@@ -185,7 +174,7 @@ public class ChatViewController {
             socket.on("new message", this::call).on(Socket.EVENT_DISCONNECT, args -> { });
             socket.connect();
 
-        } catch (URISyntaxException | CannotCreateFileException e) {
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }

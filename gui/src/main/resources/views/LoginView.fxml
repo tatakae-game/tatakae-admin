@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="mainAnchorPane" prefHeight="458.0" prefWidth="800.0" style="-fx-background-color: #14093b;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tatakae.admin.gui.controllers.LoginViewController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="133.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/logo.png" />
+               </image>
+               <VBox.margin>
+                  <Insets bottom="25.0" />
+               </VBox.margin>
+            </ImageView>
+            <Label alignment="TOP_LEFT" text="Login" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets right="265.0" top="20.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="username" maxWidth="300.0" prefWidth="300.0" promptText="Enter your login">
+               <VBox.margin>
+                  <Insets top="8.0" />
+               </VBox.margin>
+            </TextField>
+            <Label text="Password" textFill="WHITE">
+               <VBox.margin>
+                  <Insets right="240.0" top="12.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="password" maxWidth="300.0" promptText="Enter your password" />
+            <Button mnemonicParsing="false" onAction="#onSubmit" style="-fx-background-color: #ca792b;" text="Login" textFill="WHITE">
+               <VBox.margin>
+                  <Insets right="235.0" top="12.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

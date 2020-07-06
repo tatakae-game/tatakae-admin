@@ -6,7 +6,6 @@ import com.tatakae.admin.core.LocalDataManager;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
-import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 public class WebSocketService {
 
     public static Socket connect(final String path, final Map<String, String> query)
-            throws URISyntaxException, CannotCreateFileException {
+            throws URISyntaxException {
         try {
             final var url = Config.url.concat(path);
             final var queries = query.entrySet().stream()
@@ -28,8 +27,6 @@ public class WebSocketService {
 
         } catch (URISyntaxException e) {
             throw new URISyntaxException(e.getMessage(), e.getReason());
-        } catch (FileNotFoundException | CannotCreateFileException e) {
-            throw new CannotCreateFileException(e.getMessage());
         }
     }
 }

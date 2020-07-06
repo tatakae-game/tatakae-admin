@@ -1,6 +1,5 @@
 package com.tatakae.admin.gui.controllers;
 
-import com.tatakae.admin.core.Exceptions.CannotCreateFileException;
 import com.tatakae.admin.core.Exceptions.FailedParsingJsonException;
 import com.tatakae.admin.core.LocalDataManager;
 import com.tatakae.admin.core.models.Room;
@@ -19,7 +18,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -134,19 +132,15 @@ public class TicketsViewController {
     }
 
     private void loadMyTickets(final ArrayList<Room> tickets) {
-        try {
-            final var currentUser = UserService.getUserByToken(LocalDataManager.getToken());
-            myTicketsListContainer.getChildren().clear();
-            for (final var ticket : tickets) {
-                if (ticket.getAssignedTo() != null) {
-                    if (ticket.getAssignedTo().getId().equals(currentUser.getId())) {
-                        final var button = generateTicketButton(ticket);
-                        myTicketsListContainer.getChildren().add(button);
-                    }
+        final var currentUser = UserService.getUserByToken(LocalDataManager.getToken());
+        myTicketsListContainer.getChildren().clear();
+        for (final var ticket : tickets) {
+            if (ticket.getAssignedTo() != null) {
+                if (ticket.getAssignedTo().getId().equals(currentUser.getId())) {
+                    final var button = generateTicketButton(ticket);
+                    myTicketsListContainer.getChildren().add(button);
                 }
             }
-        } catch (FailedParsingJsonException | CannotCreateFileException | FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
 

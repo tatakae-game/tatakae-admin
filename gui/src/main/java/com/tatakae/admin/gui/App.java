@@ -1,7 +1,9 @@
 package com.tatakae.admin.gui;
 
+import com.tatakae.admin.core.LocalDataManager;
 import com.tatakae.admin.core.PluginManager;
 
+import com.tatakae.admin.core.services.UserService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +15,21 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/HomeView.fxml"));
+            FXMLLoader loader;
+            final var token = LocalDataManager.getToken();
+
+            if (token.isEmpty() || token.isBlank()) {
+                final var user = UserService.getUserByToken(token);
+
+                if (user.getId().isEmpty() || user.getId().isBlank()) {
+                    loader = new FXMLLoader(getClass().getResource("/views/LoginView.fxml"));
+                } else {
+                    loader = new FXMLLoader(getClass().getResource("/views/HomeView.fxml"));
+                }
+            } else {
+                loader = new FXMLLoader(getClass().getResource("/views/HomeView.fxml"));
+            }
+
             Parent root = loader.load();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/styles/tickets.css").toExternalForm());
@@ -21,6 +37,7 @@ public class App extends Application {
             stage.setMaximized(true);
             stage.getIcons().add(new Image(getClass().getResource("/images/favicon.png").toString()));
             stage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
