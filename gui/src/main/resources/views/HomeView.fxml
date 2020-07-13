@@ -30,26 +30,30 @@
                   <Insets bottom="48.0" top="48.0" />
                </VBox.margin>
             </Button>
-            <ScrollPane fitToHeight="true" hbarPolicy="NEVER" prefHeight="201.0" prefWidth="269.0" style="-fx-background-color: #0a041c;" vbarPolicy="NEVER">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #0a041c;">
-                     <children>
-                        <VBox fx:id="vBoxMenuContainer" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="269.0" style="-fx-background-color: #0a041c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-69.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane prefHeight="500.0" prefWidth="200.0">
+               <children>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" prefHeight="400.0" prefWidth="269.0" style="-fx-background-color: #0a041c;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane style="-fx-background-color: #0a041c;">
                            <children>
-                              <Button fx:id="ticketsViewButton" minHeight="25.0" minWidth="178.0" mnemonicParsing="false" onAction="#loadTicketsView" style="-fx-background-color: #ca792b;" text="Tickets" textFill="WHITE">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets bottom="8.0" top="24.0" />
-                                 </VBox.margin>
-                              </Button>
+                              <VBox fx:id="vBoxMenuContainer" alignment="TOP_CENTER" style="-fx-background-color: #0a041c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="ticketsViewButton" minHeight="25.0" minWidth="178.0" mnemonicParsing="false" onAction="#loadTicketsView" style="-fx-background-color: #ca792b;" text="Tickets" textFill="WHITE">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="8.0" top="24.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
-              </content>
-            </ScrollPane>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
          </children>
       </VBox>
    </children>

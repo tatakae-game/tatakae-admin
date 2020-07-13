@@ -36,11 +36,16 @@ public class PluginViewController {
       pluginManager = PluginManager.getInstance();
       displayPluginList();
 
-      final var label = (Label) pluginsList.getItems().get(0).getChildren().get(0);
-      pluginNameSelected.setText(label.getText());
+      if (!pluginsList.getItems().isEmpty()) {
+        final var label = (Label) pluginsList.getItems().get(0).getChildren().get(0);
+        pluginNameSelected.setText(label.getText());
 
-      final var env = pluginManager.getEnvironmentByPluginName(label.getText());
-      pluginDescriptionSelected.setText(env.getPlugin().getDescription());
+        final var env = pluginManager.getEnvironmentByPluginName(label.getText());
+        pluginDescriptionSelected.setText(env.getPlugin().getDescription());
+
+      } else {
+        getNoPluginDetails();
+      }
 
     } catch (PluginNotFoundException e) {
       getNoPluginDetails();
@@ -59,13 +64,19 @@ public class PluginViewController {
   @FXML
   public void getPluginDetails() {
     try {
-      final var selectedItem = pluginsList.getSelectionModel().getSelectedItem();
-      final var pluginName = (Label) selectedItem.getChildren().get(0);
+      if (!pluginsList.getItems().isEmpty()) {
+        final var selectedItem = pluginsList.getSelectionModel().getSelectedItem();
 
-      final var env = pluginManager.getEnvironmentByPluginName(pluginName.getText());
+        if (selectedItem != null) {
+          final var pluginName = (Label) selectedItem.getChildren().get(0);
+          final var env = pluginManager.getEnvironmentByPluginName(pluginName.getText());
 
-      pluginNameSelected.setText(pluginName.getText());
-      pluginDescriptionSelected.setText(env.getPlugin().getDescription());
+          pluginNameSelected.setText(pluginName.getText());
+          pluginDescriptionSelected.setText(env.getPlugin().getDescription());
+        }
+      } else {
+        getNoPluginDetails();
+      }
 
     } catch (PluginNotFoundException e) {
       getNoPluginDetails();
