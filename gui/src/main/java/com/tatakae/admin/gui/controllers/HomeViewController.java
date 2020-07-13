@@ -1,6 +1,5 @@
 package com.tatakae.admin.gui.controllers;
 
-import com.tatakae.admin.core.Exceptions.PluginNotFoundException;
 import com.tatakae.admin.core.PluginManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,8 +13,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class HomeViewController {
+
+    private Node pluginView;
 
     @FXML
     private AnchorPane viewsContainer;
@@ -44,10 +46,18 @@ public class HomeViewController {
     @FXML
     public void loadPluginsView() {
         try {
-            var loader = new FXMLLoader(getClass().getResource("/views/PluginView.fxml"));
-            viewsContainer.getChildren().setAll((Node) loader.load());
-            PluginViewController pluginViewController = loader.getController();
-            pluginViewController.setHomeController(this);
+            viewsContainer.getChildren().clear();
+
+            if (pluginView == null) {
+                var loader = new FXMLLoader(getClass().getResource("/views/PluginView.fxml"));
+                viewsContainer.getChildren().setAll(pluginView = loader.load());
+
+                PluginViewController pluginViewController = loader.getController();
+                pluginViewController.setHomeController(this);
+            } else {
+                viewsContainer.getChildren().setAll(pluginView);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,7 +66,9 @@ public class HomeViewController {
     @FXML
     public void loadTicketsView() {
         try {
-            viewsContainer.getChildren().setAll((Node)FXMLLoader.load(getClass().getResource("/views/TicketsView.fxml")));
+            viewsContainer.getChildren().clear();
+            viewsContainer.getChildren()
+                    .setAll((Node)FXMLLoader.load(getClass().getResource("/views/TicketsView.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,12 +82,15 @@ public class HomeViewController {
         button.setTextFill(Color.WHITE);
         button.setMinWidth(178);
 
-        EventHandler<ActionEvent> event = e -> {
+        EventHandler<ActionEvent> event = ev -> {
             try {
-                final var env = pluginManager.getEnvironmentByPluginName(name);
-                viewsContainer.getChildren().setAll((Node)FXMLLoader.load(env.getPlugin().getView()));
-            } catch (PluginNotFoundException | IOException pluginNotFoundException) {
-                pluginNotFoundException.printStackTrace();
+                final var viewFileName = pluginManager.getPluginView(name);
+                if (!viewFileName.isEmpty()) {
+                    FXMLLoader loader = new FXMLLoader(new URL("file:///" + viewFileName));
+                    viewsContainer.getChildren().setAll((Node) loader.load());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         };
 
