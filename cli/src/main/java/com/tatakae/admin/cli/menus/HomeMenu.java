@@ -22,19 +22,24 @@ public class HomeMenu extends AbstractMenu {
 
     @Override
     public void display() {
-        System.out.println("\n=== HOME === \n");
         String choice;
+        boolean isValid;
 
         Scanner sc = new Scanner(System.in);
 
         do {
-            System.out.println("0 - Previous\t1 - Show tickets\t2 - Show plugins\n");
-            System.out.println("(q) / (Q) / (quit) / (Quit) / (QUIT) --> Quit\n");
+            displayTitle("HOME");
+            System.out.println("1 - Show tickets\t2 - Show plugins\n");
             System.out.print("Choose your action (must be a number): ");
 
             choice = sc.next();
+            isValid = isValidChoice(choice);
 
-        } while (!isValidChoice(choice));
+            if (!isValid) {
+                System.err.println("Error: Choice invalid, please enter a valid one.");
+            }
+
+        } while (!isValid);
 
         sc.close();
 
@@ -71,16 +76,5 @@ public class HomeMenu extends AbstractMenu {
         } catch (NumberFormatException e) {
             return wantToQuit(choice);
         }
-    }
-
-    public boolean wantToQuit(final String choice) {
-        boolean isValid = choice.equals("q") || choice.equals("Q") || choice.equals("quit")
-                || choice.equals("Quit") || choice.equals("QUIT");
-
-        if (isValid) {
-            this.choice = -1;
-        }
-
-        return isValid;
     }
 }
