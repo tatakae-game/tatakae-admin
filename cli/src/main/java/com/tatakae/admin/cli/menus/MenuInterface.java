@@ -6,6 +6,8 @@ public interface MenuInterface {
 
     Integer getChoice();
 
+    MenuInterface getParent();
+
     boolean isValidChoice(final String choice);
 
 }

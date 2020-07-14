@@ -2,12 +2,8 @@ package com.tatakae.admin.cli.menus;
 
 abstract class AbstractMenu implements MenuInterface {
 
-    protected final MenuInterface parent;
+    protected MenuInterface parent;
     protected Integer choice;
-
-    public AbstractMenu(MenuInterface parent) {
-        this.parent = parent;
-    }
 
     public Integer getChoice() {
         return this.choice;
@@ -15,6 +11,10 @@ abstract class AbstractMenu implements MenuInterface {
 
     public MenuInterface getParent() {
         return this.parent;
+    }
+
+    public void menuSeparator() {
+        System.out.println("\n==============================\n");
     }
 
 }
