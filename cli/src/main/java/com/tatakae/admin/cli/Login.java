@@ -1,5 +1,6 @@
 package com.tatakae.admin.cli;
 
+import com.tatakae.admin.cli.menus.HomeMenu;
 import com.tatakae.admin.core.models.Credentials;
 import com.tatakae.admin.core.services.AuthService;
 import java.util.Scanner;
@@ -20,6 +21,8 @@ public class Login {
 
                 if (AuthService.isAuthed()) {
                     System.out.println("\nConnection successful.\n");
+                    HomeMenu homeMenu = new HomeMenu();
+                    homeMenu.display();
                     break;
                 } else {
                     System.out.println("\nConnection failed. " + (i - 1) + " attempts remaining.\n");

@@ -1,7 +1,10 @@
 package com.tatakae.admin.cli;
 
+import com.tatakae.admin.cli.menus.HomeMenu;
 import com.tatakae.admin.core.LocalDataManager;
 import com.tatakae.admin.core.services.UserService;
+
+import static java.lang.System.exit;
 
 class Application {
 
@@ -13,14 +16,16 @@ class Application {
             final var user = UserService.getUserByToken(token);
 
             if (user.getId().isEmpty() || user.getId().isBlank()) {
-                final var loginMenu = new Login();
-                loginMenu.display();
+                final var loginStep = new Login();
+                loginStep.display();
             } else {
-                System.out.println("/!\\ TODO /!\\");
+                final var homeMenu = new HomeMenu();
+                homeMenu.display();
             }
         } else {
             final var loginMenu = new Login();
             loginMenu.display();
         }
+        exit(0);
     }
 }
