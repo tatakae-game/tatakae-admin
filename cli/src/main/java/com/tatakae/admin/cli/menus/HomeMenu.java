@@ -4,9 +4,21 @@ import java.util.Scanner;
 
 import static java.lang.System.exit;
 
-public class HomeMenu implements Menu {
+public class HomeMenu extends AbstractMenu {
 
-    private int choice;
+    private static HomeMenu instance = null;
+
+    public static HomeMenu getInstance(MenuInterface parent) {
+        if (instance == null) {
+            return new HomeMenu(parent);
+        }
+        return instance;
+    }
+
+
+    private HomeMenu(MenuInterface parent) {
+        super(parent);
+    }
 
     @Override
     public void display() {
