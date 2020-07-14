@@ -17,7 +17,7 @@ public class HomeMenu extends AbstractMenu {
 
 
     private HomeMenu(MenuInterface parent) {
-        super(parent);
+        this.parent = parent;
     }
 
     @Override
@@ -28,31 +28,31 @@ public class HomeMenu extends AbstractMenu {
         Scanner sc = new Scanner(System.in);
 
         do {
-            System.out.println("1 - Show tickets\t2 - Show plugins\n\n(q) / (Q) / (quit) / (Quit) / (QUIT) --> Quit\n");
+            System.out.println("0 - Previous\t1 - Show tickets\t2 - Show plugins\n");
+            System.out.println("(q) / (Q) / (quit) / (Quit) / (QUIT) --> Quit\n");
             System.out.print("Choose your action (must be a number): ");
 
             choice = sc.next();
 
         } while (!isValidChoice(choice));
 
-        if (wantToQuit(choice)) {
-            System.out.println("\nSee you soon!");
-            exit(0);
-        } else {
-            switch (this.choice) {
-                case 1:
-                    System.out.println("case 1: load tickets menu");
-                    break;
-                case 2:
-                    System.out.println("case 2: load plugins menu");
-                    break;
-            }
-        }
-    }
+        sc.close();
 
-    @Override
-    public int getChoice() {
-        return this.choice;
+        switch (this.getChoice()) {
+            case 0:
+                parent.display();
+                break;
+            case 1:
+                System.out.println("case 1: load tickets menu");
+                break;
+            case 2:
+                System.out.println("case 2: load plugins menu");
+                break;
+            default:
+                menuSeparator();
+                System.out.println("See you soon!");
+                exit(0);
+        }
     }
 
     @Override
@@ -60,7 +60,7 @@ public class HomeMenu extends AbstractMenu {
         try {
             int number = Integer.parseInt(choice);
 
-            boolean isValid = (number >= 0 && number <= 3) ;
+            boolean isValid = (number >= 1 && number <= 3) ;
 
             if (isValid) {
                 this.choice = number;
@@ -74,7 +74,13 @@ public class HomeMenu extends AbstractMenu {
     }
 
     public boolean wantToQuit(final String choice) {
-        return choice.equals("q") || choice.equals("Q") || choice.equals("quit")
+        boolean isValid = choice.equals("q") || choice.equals("Q") || choice.equals("quit")
                 || choice.equals("Quit") || choice.equals("QUIT");
+
+        if (isValid) {
+            this.choice = -1;
+        }
+
+        return isValid;
     }
 }
