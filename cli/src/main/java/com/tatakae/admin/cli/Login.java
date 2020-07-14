@@ -21,7 +21,7 @@ public class Login {
 
                 if (AuthService.isAuthed()) {
                     System.out.println("\nConnection successful.\n");
-                    HomeMenu homeMenu = new HomeMenu();
+                    HomeMenu homeMenu = HomeMenu.getInstance(null);
                     homeMenu.display();
                     break;
                 } else {

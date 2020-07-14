@@ -19,7 +19,7 @@ class Application {
                 final var loginStep = new Login();
                 loginStep.display();
             } else {
-                final var homeMenu = new HomeMenu();
+                final var homeMenu = HomeMenu.getInstance(null);
                 homeMenu.display();
             }
         } else {
