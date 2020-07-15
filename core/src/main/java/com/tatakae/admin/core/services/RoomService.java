@@ -79,15 +79,15 @@ public class RoomService {
 
     public static Room serialize(JSONObject jRoom) throws FailedParsingJsonException {
         try {
-            var id = jRoom.getString("_id");
-            var name = jRoom.getString("name");
-            var status = jRoom.getString("status");
-            var author = UserService.getUserById(jRoom.getString("author"));
-            var assignedTo = jRoom.has("assigned_to") ? UserService.getUserById(jRoom.getString("assigned_to")) : null;
-            var created = LocalDateTime.parse(jRoom.getString("created"), formatter);
-            var isTicket = jRoom.getBoolean("is_ticket");
-            var users = UserService.serialize(jRoom.getJSONArray("users"));
-            var messages = serializeMessages(jRoom.getJSONArray("messages"));
+            final var id = jRoom.getString("_id");
+            final var name = jRoom.getString("name");
+            final var status = jRoom.getString("status");
+            final var author = UserService.getUserById(jRoom.getString("author"));
+            final var assignedTo = jRoom.has("assigned_to") ? UserService.getUserById(jRoom.getString("assigned_to")) : null;
+            final var created = LocalDateTime.parse(jRoom.getString("created"), formatter);
+            final var isTicket = jRoom.getBoolean("is_ticket");
+            final var users = UserService.serialize(jRoom.getJSONArray("users"));
+            final var messages = serializeMessages(jRoom.getJSONArray("messages"));
 
             return new Room(id, status, author, name, isTicket, assignedTo, created, messages, users);
 

@@ -6,11 +6,11 @@ import java.util.ArrayList;
 public class Room {
 
     private final String id;
-    private final String status;
+    private String status;
     private final User author;
     private final String name;
     private final boolean isTicket;
-    private final User assignedTo;
+    private User assignedTo;
     private final LocalDateTime created;
     private final ArrayList<Message> messages;
     private final ArrayList<User> users;
@@ -36,6 +36,10 @@ public class Room {
         return status;
     }
 
+    public void setStatus(final String status) {
+        this.status = status;
+    }
+
     public User getAuthor() {
         return author;
     }
@@ -50,6 +54,10 @@ public class Room {
 
     public User getAssignedTo() {
         return assignedTo;
+    }
+
+    public void setAssignedTo(final User user) {
+        this.assignedTo = user;
     }
 
     public LocalDateTime getCreated() {
