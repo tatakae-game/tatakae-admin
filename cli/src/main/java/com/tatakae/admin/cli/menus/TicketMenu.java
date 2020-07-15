@@ -153,21 +153,19 @@ public class TicketMenu extends AbstractMenu {
             assignedToOptions.put(i + 1, admins.get(i));
         }
 
-        System.out.println("admins: " + admins);
-
         do {
-            System.out.print("\n0 - Cancel\t");
+            System.out.print("0 - Cancel\t");
 
             for (final var entry : assignedToOptions.entrySet()) {
                 System.out.print(entry.getKey() + " - " + entry.getValue().getUsername() + "\t");
             }
 
-            System.out.println();
+            System.out.println("\n");
             System.out.print("Choose your action: ");
 
             choice = sc.next();
 
-            isValid = isValidChoice(choice, 0, 3);
+            isValid = isValidChoice(choice, 0, admins.size());
 
             if (!isValid) {
                 System.err.println("Error: Choice invalid, please enter a valid one.");
