@@ -2,12 +2,10 @@ package com.tatakae.admin.cli.menus;
 
 public interface MenuInterface {
 
-    void display();
+    void run();
 
-    Integer getChoice();
+    boolean isValidChoice(final String choice, final Integer min, final Integer max);
 
-    MenuInterface getParent();
-
-    boolean isValidChoice(final String choice);
+    void loadChoice(final Integer choice);
 
 }
