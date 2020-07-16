@@ -13,7 +13,7 @@ public class Message {
         this.id = "";
         this.type = type;
         this.data = data;
-        this.date = null;
+        this.date = LocalDateTime.now();
         this.author = author;
     }
 

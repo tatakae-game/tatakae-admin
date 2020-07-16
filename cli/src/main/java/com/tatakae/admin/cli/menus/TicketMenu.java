@@ -1,5 +1,6 @@
 package com.tatakae.admin.cli.menus;
 
+import com.tatakae.admin.cli.Chat;
 import com.tatakae.admin.core.Exceptions.FailedParsingJsonException;
 import com.tatakae.admin.core.models.Room;
 import com.tatakae.admin.core.models.User;
@@ -18,6 +19,8 @@ public class TicketMenu extends AbstractMenu {
 
     private final Room ticket;
 
+    private Chat chat;
+
     private Map<Integer, String> statusOptions;
 
     private Map<Integer, User> assignedToOptions;
@@ -34,6 +37,8 @@ public class TicketMenu extends AbstractMenu {
     protected TicketMenu(MenuInterface parent, final Room ticket) {
         super(parent);
         this.ticket = ticket;
+        this.chat = new Chat(ticket);
+
         this.statusOptions = new HashMap<>();
         this.assignedToOptions = new HashMap<>();
 
@@ -63,12 +68,12 @@ public class TicketMenu extends AbstractMenu {
             System.out.println();
 
             System.out.println("0 - Previous\t1 - Update 'status' field\t" +
-                    "2 - Update 'assigned to' field\t3 - Open Chat\n");
+                    "2 - Update 'assigned to' field\t3 - Show messages\t4 - Send message\n");
 
             System.out.print("Choose your action: ");
 
             choice = sc.next();
-            isValid = isValidChoice(choice, 0, 3);
+            isValid = isValidChoice(choice, 0, 4);
 
             if (!isValid) {
                 menuSeparator();
@@ -77,7 +82,7 @@ public class TicketMenu extends AbstractMenu {
         } while (!isValid);
 
         loadChoice(this.choice);
-
+        run();
     }
 
     @Override
@@ -90,11 +95,13 @@ public class TicketMenu extends AbstractMenu {
                 updateStatus();
                 break;
             case 2:
-                System.out.println("case 2: update assigned to field");
                 updateAssignedTo();
                 break;
             case 3:
-                System.out.println("case 3: open chat room");
+                chat.showMessages();
+                break;
+            case 4:
+                sendMessage();
                 break;
             default:
                 menuSeparator();
@@ -188,4 +195,22 @@ public class TicketMenu extends AbstractMenu {
         }
         run();
     }
+
+    private void sendMessage() {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println();
+        System.out.print("Enter your message: ");
+
+        final var message = scanner.next();
+
+        if (message.length() > 500) {
+            System.err.println("Error: Your message is over 500 characters.");
+            return;
+        }
+
+        chat.sendMessage(message);
+    }
+
 }
