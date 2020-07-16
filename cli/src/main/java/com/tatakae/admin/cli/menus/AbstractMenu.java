@@ -5,12 +5,25 @@ abstract class AbstractMenu implements MenuInterface {
     protected MenuInterface parent;
     protected Integer choice;
 
-    public Integer getChoice() {
-        return this.choice;
+    protected AbstractMenu(MenuInterface parent) {
+        this.parent = parent;
     }
 
-    public MenuInterface getParent() {
-        return this.parent;
+    public boolean isValidChoice(final String choice, final Integer min, final Integer max) {
+        try {
+            int number = Integer.parseInt(choice);
+
+            boolean isValid = (number >= min && number <= max) ;
+
+            if (isValid) {
+                this.choice = number;
+            }
+
+            return isValid;
+
+        } catch (NumberFormatException e) {
+            return wantToQuit(choice);
+        }
     }
 
     public void menuSeparator() {

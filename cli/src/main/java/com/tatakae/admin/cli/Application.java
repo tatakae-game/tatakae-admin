@@ -20,7 +20,7 @@ class Application {
                 loginStep.display();
             } else {
                 final var homeMenu = HomeMenu.getInstance(null);
-                homeMenu.display();
+                homeMenu.run();
             }
         } else {
             final var loginMenu = new Login();

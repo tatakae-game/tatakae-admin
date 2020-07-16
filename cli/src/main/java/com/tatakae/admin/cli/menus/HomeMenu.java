@@ -17,11 +17,11 @@ public class HomeMenu extends AbstractMenu {
 
 
     private HomeMenu(MenuInterface parent) {
-        this.parent = parent;
+        super(parent);
     }
 
     @Override
-    public void display() {
+    public void run() {
         String choice;
         boolean isValid;
 
@@ -30,25 +30,25 @@ public class HomeMenu extends AbstractMenu {
         do {
             displayTitle("HOME");
             System.out.println("1 - Show tickets\t2 - Show plugins\n");
-            System.out.print("Choose your action (must be a number): ");
+            System.out.print("Choose your action: ");
 
             choice = sc.next();
-            isValid = isValidChoice(choice);
+            isValid = isValidChoice(choice, 1, 2);
 
             if (!isValid) {
                 System.err.println("Error: Choice invalid, please enter a valid one.");
             }
-
         } while (!isValid);
 
-        sc.close();
+        loadChoice(this.choice);
+    }
 
-        switch (this.getChoice()) {
-            case 0:
-                parent.display();
-                break;
+    @Override
+    public void loadChoice(Integer choice) {
+        switch (choice) {
             case 1:
-                System.out.println("case 1: load tickets menu");
+                final var ticketsMenu = TicketsMenu.getInstance(this);
+                ticketsMenu.run();
                 break;
             case 2:
                 System.out.println("case 2: load plugins menu");
@@ -57,24 +57,6 @@ public class HomeMenu extends AbstractMenu {
                 menuSeparator();
                 System.out.println("See you soon!");
                 exit(0);
-        }
-    }
-
-    @Override
-    public boolean isValidChoice(String choice) {
-        try {
-            int number = Integer.parseInt(choice);
-
-            boolean isValid = (number >= 1 && number <= 3) ;
-
-            if (isValid) {
-                this.choice = number;
-            }
-
-            return isValid;
-
-        } catch (NumberFormatException e) {
-            return wantToQuit(choice);
         }
     }
 }

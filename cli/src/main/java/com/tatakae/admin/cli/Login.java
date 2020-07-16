@@ -22,10 +22,10 @@ public class Login {
                 if (AuthService.isAuthed()) {
                     System.out.println("\nConnection successful.\n");
                     HomeMenu homeMenu = HomeMenu.getInstance(null);
-                    homeMenu.display();
+                    homeMenu.run();
                     break;
                 } else {
-                    System.out.println("\nConnection failed. " + (i - 1) + " attempts remaining.\n");
+                    System.err.println("\nConnection failed. " + (i - 1) + " attempts remaining.\n");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
