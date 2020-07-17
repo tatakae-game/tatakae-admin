@@ -1,10 +1,13 @@
 package com.tatakae.admin.cli.menus;
 
+import com.tatakae.admin.core.PluginManager;
+
 import java.util.Scanner;
 
 import static java.lang.System.exit;
 
 public class HomeMenu extends AbstractMenu {
+    private final PluginManager pluginManager;
 
     private static HomeMenu instance = null;
 
@@ -18,6 +21,7 @@ public class HomeMenu extends AbstractMenu {
 
     private HomeMenu(MenuInterface parent) {
         super(parent);
+        pluginManager = PluginManager.getInstance();
     }
 
     @Override
@@ -51,7 +55,8 @@ public class HomeMenu extends AbstractMenu {
                 ticketsMenu.run();
                 break;
             case 2:
-                System.out.println("case 2: load plugins menu");
+                final var pluginsMenu = PluginsMenu.getInstance(this);
+                pluginsMenu.run();
                 break;
             default:
                 menuSeparator();

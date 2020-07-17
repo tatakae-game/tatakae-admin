@@ -28,8 +28,8 @@ public class Login {
                     System.err.println("\nConnection failed. " + (i - 1) + " attempts remaining.\n");
                 }
             } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
+                System.err.println("Connection refused: Server disconnected.");
+                separator();
             }
         }
         exit(0);
@@ -63,4 +63,9 @@ public class Login {
             return new Credentials("", "");
         }
     }
+
+    public void separator() {
+        System.out.println("\n==============================\n");
+    }
+
 }
