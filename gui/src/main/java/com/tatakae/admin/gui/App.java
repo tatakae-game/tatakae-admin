@@ -18,7 +18,7 @@ public class App extends Application {
             FXMLLoader loader;
             final var token = LocalDataManager.getToken();
 
-            if (token.isEmpty() || token.isBlank()) {
+            if (!token.isEmpty() && !token.isBlank()) {
                 final var user = UserService.getUserByToken(token);
 
                 if (user.getId().isEmpty() || user.getId().isBlank()) {
@@ -27,7 +27,7 @@ public class App extends Application {
                     loader = new FXMLLoader(getClass().getResource("/views/HomeView.fxml"));
                 }
             } else {
-                loader = new FXMLLoader(getClass().getResource("/views/HomeView.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/views/LoginView.fxml"));
             }
 
             Parent root = loader.load();
@@ -47,11 +47,12 @@ public class App extends Application {
         try {
             final var manager = PluginManager.getInstance();
             manager.startPlugins();
+
+            launch();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
             e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
-        launch();
     }
 }

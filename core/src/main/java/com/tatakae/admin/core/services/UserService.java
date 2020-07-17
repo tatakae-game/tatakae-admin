@@ -53,8 +53,6 @@ public class UserService {
 
         } catch (Exception e) {
             return new User();
-//            throw new FailedParsingJsonException(
-//                    "Failed to parse JSON User: " + e.getMessage());
         }
     }
 
@@ -74,9 +72,9 @@ public class UserService {
         }
     }
 
-    public static User serialize(JSONObject jUser) throws FailedParsingJsonException{
+    public static User serialize(JSONObject jUser) {
         try {
-            var id = jUser.getString("id");
+            var id = jUser.has("id") ? jUser.getString("id") : jUser.getString("_id");
             var username = jUser.getString("username");
             var email = jUser.getString("email");
             var groups = GroupService.serialize(jUser.getJSONArray("groups"));
@@ -84,8 +82,8 @@ public class UserService {
             return new User(id, username, email, groups);
 
         } catch (Exception e) {
-            throw new FailedParsingJsonException(
-                    "Failed to parse JSON User: " + e.getMessage());
+            System.out.println("ERROR: " + e.getMessage());
+            return null;
         }
     }
 }

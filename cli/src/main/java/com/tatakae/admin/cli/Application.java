@@ -1,42 +1,31 @@
 package com.tatakae.admin.cli;
 
-import com.tatakae.admin.core.models.Credentials;
-import com.tatakae.admin.core.services.AuthService;
+import com.tatakae.admin.cli.menus.HomeMenu;
+import com.tatakae.admin.core.LocalDataManager;
+import com.tatakae.admin.core.services.UserService;
 
-import java.util.Scanner;
+import static java.lang.System.exit;
 
 class Application {
 
     public static void main(final String[] args) {
-        for (int i = 5; i >= 0; --i) {
-            var credentials = enterCredentials();
 
-            try {
-                AuthService.authenticate(credentials.getUsername(), credentials.getPassword());
+        final var token = LocalDataManager.getToken();
 
-                if (AuthService.isAuthed()) {
-                    System.out.println("\nConnection successful.\n");
-                    break;
-                } else {
-                    System.out.println("\nConnection failed. " + i + " attempts remaining.\n");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (!token.isEmpty() && !token.isBlank()) {
+            final var user = UserService.getUserByToken(token);
+
+            if (user.getId().isEmpty() || user.getId().isBlank()) {
+                final var loginStep = new Login();
+                loginStep.display();
+            } else {
+                final var homeMenu = HomeMenu.getInstance(null);
+                homeMenu.run();
             }
+        } else {
+            final var loginMenu = new Login();
+            loginMenu.display();
         }
-    }
-
-    private static Credentials enterCredentials() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter your credentials:\n");
-
-        System.out.print("\tUsername: ");
-        var username = scanner.next();
-
-        System.out.print("\tPassword: ");
-        var password = scanner.next();
-
-        return new Credentials(username, password);
+        exit(0);
     }
 }

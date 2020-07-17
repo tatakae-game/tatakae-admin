@@ -1,11 +1,13 @@
 package com.tatakae.admin.core;
 
 public interface Plugin {
-    public void start();
+    void start();
 
-    public String getMainViewName();
+    String getMainViewName();
 
-    public String getName();
+    String getName();
 
-    public String getDescription();
+    String getDescription();
+
+    void startCLI();
 }
