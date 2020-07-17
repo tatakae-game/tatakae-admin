@@ -1,11 +1,9 @@
 package com.tatakae.admin.cli.menus;
 
-import com.tatakae.admin.core.PluginEnvironment;
 import com.tatakae.admin.core.PluginManager;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.File;
+import java.util.*;
 
 import static java.lang.System.exit;
 
@@ -13,7 +11,7 @@ public class PluginsMenu extends AbstractMenu {
 
     private final PluginManager pluginManager;
 
-    private final Map<PluginEnvironment, String> environmentsMap;
+    private Map<String, String> pluginMap;
 
     private static PluginsMenu instance = null;
 
@@ -27,7 +25,6 @@ public class PluginsMenu extends AbstractMenu {
     private PluginsMenu(MenuInterface parent) {
         super(parent);
         pluginManager = PluginManager.getInstance();
-        environmentsMap = new HashMap<>();
     }
 
     @Override
@@ -35,11 +32,12 @@ public class PluginsMenu extends AbstractMenu {
         String choice;
         boolean isValid;
 
-        environmentsMap.entrySet().clear();
-
+        Map<String, String> tmp = new HashMap<>();
         for(final var entry : pluginManager.environments.entrySet()) {
-            environmentsMap.put(entry.getKey(), entry.getValue());
+            tmp.put(entry.getKey().getPlugin().getName(), entry.getValue());
         }
+
+        pluginMap = new TreeMap<>(tmp);
 
         Scanner sc = new Scanner(System.in);
 
@@ -72,6 +70,12 @@ public class PluginsMenu extends AbstractMenu {
             case 2:
                 activateDeactivatePlugin();
                 break;
+            case 3:
+                showPluginDetails();
+                break;
+            case 4:
+                importPlugin();
+                break;
             default:
                 menuSeparator();
                 System.out.println("See you soon!");
@@ -83,11 +87,11 @@ public class PluginsMenu extends AbstractMenu {
         int count = 1;
 
         System.out.println("N° | Name | Status");
-        for (final var entry : pluginManager.environments.entrySet()) {
+        for (final var entry : pluginMap.entrySet()) {
             final var status = entry.getValue().equals("Enable") ? "Inactive" : "Active";
 
             System.out.print(count + " | ");
-            System.out.print(entry.getKey().getPlugin().getName());
+            System.out.print(entry.getKey());
             System.out.println(" | [" + status + "]");
             count++;
         }
@@ -107,18 +111,75 @@ public class PluginsMenu extends AbstractMenu {
 
         if (!isValid) {
             menuSeparator();
-            System.err.println("Error: Plugin chosen invalid.");
+            System.err.println("Error: Invalid choice.");
             return;
         }
 
         int count = 1;
 
-        for (final var entry : environmentsMap.entrySet()) {
+        for (final var entry : pluginMap.entrySet()) {
             if (count == this.choice) {
-                pluginManager.findAndMovePlugin(entry.getKey().getPlugin().getName(), entry.getValue());
+                pluginManager.findAndMovePlugin(entry.getKey(), entry.getValue());
                 return;
             }
             count++;
+        }
+    }
+
+    private void showPluginDetails() {
+        String choice;
+        boolean isValid;
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println();
+        System.out.print("Choose a plugin: ");
+
+        choice = sc.next();
+        isValid = isValidChoice(choice, 1, pluginManager.environments.size());
+
+        if (!isValid) {
+            menuSeparator();
+            System.err.println("Error: Invalid choice.");
+            return;
+        }
+
+        int count = 1;
+
+        for (final var entry : pluginMap.entrySet()) {
+            if (count == this.choice) {
+                for (final var env : pluginManager.environments.entrySet())
+                    if (entry.getKey().equals(env.getKey().getPlugin().getName())) {
+                        System.out.println("[NAME]: " + entry.getKey());
+                        System.out.println("[DESCRIPTION]: " + env.getKey().getPlugin().getDescription());
+                    }
+                return;
+            }
+            count++;
+        }
+    }
+
+    private void importPlugin() {
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter plugin file location: ");
+
+        String s = scanner.next();
+
+        if (s.isEmpty() || s.isBlank()) {
+            System.err.println("Error: Path cannot be empty");
+            return;
+        }
+
+        boolean success = pluginManager.importPlugin(new File(s));
+
+        if (success) {
+            System.out.println("\nNew plugin added.");
+        } else {
+            System.err.println("Possible error:");
+            System.err.println("\t- The file chosen is not a valid plugin.");
+            System.err.println("\t- The plugin is already present.");
+            System.err.println("\t- The file does not exist.\n");
         }
     }
 }

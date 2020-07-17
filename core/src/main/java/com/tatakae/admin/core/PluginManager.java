@@ -113,7 +113,6 @@ public class PluginManager {
 
             for (final var environment : environments.entrySet()) {
                 if (environment.getKey().getPlugin().getName().equals(env.getPlugin().getName())) {
-                    // error: plugin already exists.
                     return false;
                 }
             }
@@ -131,7 +130,6 @@ public class PluginManager {
             return Files.exists(destination);
 
         } catch (CannotCreateFileException | IOException | FailedLoadingPluginException e) {
-            System.out.println("error import: " + e.getMessage());
             return false;
         }
     }
