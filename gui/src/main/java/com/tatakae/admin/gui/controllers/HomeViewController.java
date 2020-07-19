@@ -1,5 +1,6 @@
 package com.tatakae.admin.gui.controllers;
 
+import com.tatakae.admin.core.Exceptions.PluginNotFoundException;
 import com.tatakae.admin.core.PluginManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -87,6 +88,13 @@ public class HomeViewController {
                 final var viewFileName = pluginManager.getPluginView(name);
                 if (!viewFileName.isEmpty()) {
                     FXMLLoader loader = new FXMLLoader(new URL("file:///" + viewFileName));
+                    try {
+                        final var plugin = pluginManager.getEnvironmentByPluginName(name).getPlugin();
+                        loader.setController(plugin.getController());
+                    } catch (PluginNotFoundException e) {
+                        System.out.println(e.getMessage());
+                        e.printStackTrace();
+                    }
                     viewsContainer.getChildren().setAll((Node) loader.load());
                 }
             } catch (IOException e) {

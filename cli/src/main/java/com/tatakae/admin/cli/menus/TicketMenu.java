@@ -203,9 +203,9 @@ public class TicketMenu extends AbstractMenu {
         System.out.println();
         System.out.print("Enter your message: ");
 
-        final var message = scanner.next();
+        final var message = scanner.nextLine();
 
-        if (message.length() > 500) {
+        if (message.length() > 2000) {
             System.err.println("Error: Your message is over 500 characters.");
             return;
         }
