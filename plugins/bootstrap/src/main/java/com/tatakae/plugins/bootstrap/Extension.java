@@ -30,11 +30,11 @@ public class Extension implements Plugin {
         return null;
     }
 
-    public ArrayList<String> getClasses() {
+    public ArrayList<String> getClassesName(Path source) {
         return new ArrayList<>();
     }
 
-    public void autoExtractResources(Path destination) {}
+    public void autoExtractResources(Path jarSource, Path destination) {}
 
     public String getExtractionDirectoryName() {
         return "";

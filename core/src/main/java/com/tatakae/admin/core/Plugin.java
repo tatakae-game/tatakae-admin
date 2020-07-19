@@ -16,9 +16,9 @@ public interface Plugin {
 
     Object getController();
 
-    ArrayList<String> getClasses();
+    ArrayList<String> getClassesName(Path source);
 
-    void autoExtractResources(Path destination);
+    void autoExtractResources(Path jarSource, Path destination);
 
     String getExtractionDirectoryName();
 }

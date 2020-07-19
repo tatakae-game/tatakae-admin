@@ -75,7 +75,7 @@ public class PluginManager {
 
             final var plugin = (Plugin) pluginClass.getDeclaredConstructor().newInstance();
 
-            loadAllClasses(loader, plugin.getClasses());
+            loadAllClasses(loader, plugin.getClassesName(path));
 
             loader.close();
             return new PluginEnvironment(loader, plugin);
@@ -200,7 +200,7 @@ public class PluginManager {
             File extractDirectory = new File(destination.resolve(extractDirName).toString());
             extractDirectory.mkdir();
 
-            pluginEnv.getPlugin().autoExtractResources(extractDirectory.toPath()); //error here: probably classpath with plugin
+            pluginEnv.getPlugin().autoExtractResources(fileDestination, extractDirectory.toPath());
 
             pluginEnv.getPlugin().start();
 
