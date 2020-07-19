@@ -6,7 +6,7 @@ import com.tatakae.admin.core.services.UserService;
 
 import static java.lang.System.exit;
 
-class Application {
+public class Application {
 
     public static void main(final String[] args) {
 
