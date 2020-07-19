@@ -1,4 +1,5 @@
 import com.tatakae.admin.core.Plugin;
+import java.util.ArrayList;
 
 public class Extension implements Plugin {
     public static String name = "Plugin 1";
@@ -23,5 +24,19 @@ public class Extension implements Plugin {
 
     public void startCLI() {
         System.out.println("Start CLI of plugin 1");
+    }
+
+    public Object getController() {
+        return null;
+    }
+
+    public ArrayList<String> getClasses() {
+        return new ArrayList<>();
+    }
+
+    public void autoExtractResources(Path destination) {}
+
+    public String getExtractionDirectoryName() {
+        return "";
     }
 }
