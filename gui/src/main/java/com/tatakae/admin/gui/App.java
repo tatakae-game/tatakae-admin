@@ -5,6 +5,7 @@ import com.tatakae.admin.core.PluginManager;
 
 import com.tatakae.admin.core.services.UserService;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -36,6 +37,7 @@ public class App extends Application {
             stage.setScene(scene);
             stage.setMaximized(true);
             stage.getIcons().add(new Image(getClass().getResource("/images/favicon.png").toString()));
+            stage.setOnCloseRequest(e -> System.exit(0));
             stage.show();
 
         } catch (Exception e) {

@@ -24,7 +24,6 @@ public class GameService {
                     .header("Authorization", LocalDataManager.getToken())
                     .asJsonAsync().get().getBody().getObject();
 
-            System.out.println(res);
             return serialize(res.getJSONArray("games"));
 
 
@@ -40,8 +39,6 @@ public class GameService {
                     .header("accept", "application/json")
                     .header("Authorization", LocalDataManager.getToken())
                     .asJsonAsync().get().getBody().getObject();
-
-            System.out.println("access: " + res);
 
             return serialize(res.getJSONObject("games"));
 
@@ -61,7 +58,6 @@ public class GameService {
                     .field("status", String.valueOf(status))
                     .asJsonAsync().get().getBody().getObject();
 
-            System.out.println(res);
             return res.getBoolean("success");
 
         } catch (Exception e) {
@@ -219,7 +215,7 @@ public class GameService {
     public static Tile serializeTile(JSONObject jTile) throws FailedParsingJsonException {
         try {
             final var ground = jTile.getString("ground");
-            final var obstacle = jTile.get("obstacle") != null ? jTile.getString("obstacle") : "";
+            final var obstacle = jTile.has("obstacle") && jTile.get("obstacle") != null ? jTile.getString("obstacle") : "";
             final var address = serializeAddress(jTile.getJSONObject("addresses"));
             final var items = serializeItems(jTile.getJSONArray("items"));
 

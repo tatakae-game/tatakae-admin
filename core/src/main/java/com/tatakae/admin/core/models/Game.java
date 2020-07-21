@@ -1,7 +1,5 @@
 package com.tatakae.admin.core.models;
 
-import com.tatakae.admin.core.models.User;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
